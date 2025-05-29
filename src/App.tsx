@@ -1,11 +1,13 @@
+import { BrowserRouter } from "react-router-dom"
+import AppRoutes from "./routes/AppRoutes"
 
 
 function App() {
 
   return (
-    <>
-    <div className="bg-red-500">hi</div>
-    </>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 
