@@ -24,13 +24,13 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-16 bg-white">
+    <section id="features" className="pt-16 pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Why Choose Skill Swap?
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-white/80 max-w-2xl mx-auto">
             Join a thriving community where knowledge flows freely and everyone
             grows together
           </p>
@@ -39,18 +39,18 @@ const Features = () => {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded p-2.5"
+              className="border-0 shadow-lg dark:shadow-white/10 bg-white/70 dark:bg-dark-400/10 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-md px-2.5 py-3"
             >
               <CardHeader className="text-center pb-4">
-                <div className="mx-auto mb-4 w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center">
+                <div className="mx-auto mb-4 w-16 h-16 bg-gray-50 dark:bg-dark-400/20 rounded-full flex items-center justify-center">
                   {feature.icon}
                 </div>
-                <CardTitle className="text-xl text-gray-900 font-semibold ">
+                <CardTitle className="text-xl text-gray-900 dark:text-white/90 font-semibold ">
                   {feature.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-center text-gray-600 leading-relaxed pb-4">
+                <CardDescription className="text-center text-gray-600 dark:text-white/80 leading-relaxed pb-4">
                   {feature.description}
                 </CardDescription>
               </CardContent>

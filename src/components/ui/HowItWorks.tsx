@@ -26,13 +26,13 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-16 lg:py-20 bg-gray-50">
+    <section id="how-it-works" className="py-16 lg:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-semibold text-gray-900">
+          <h2 className="text-4xl font-semibold text-gray-900 dark:text-white">
             How It Works
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 text-lg text-gray-600 dark:text-white/80">
             A simple, 3-step journey to your next skill exchange.
           </p>
         </div>
@@ -41,7 +41,7 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow p-8 relative overflow-hidden"
+              className="group bg-white dark:bg-dark-400/20 dark:shadow-white/10 rounded-2xl shadow-md hover:shadow-xl transition-shadow p-8 relative overflow-hidden"
             >
               {/* Gradient Border Glow */}
               <div
@@ -56,12 +56,12 @@ const HowItWorks = () => {
               </div>
 
               {/* Step Title */}
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white/90 mb-3">
                 {step.title}
               </h3>
 
               {/* Step Description */}
-              <p className="text-gray-600 text-base leading-relaxed mb-4">
+              <p className="text-gray-600 dark:text-white/80 text-base leading-relaxed mb-4">
                 {step.description}
               </p>
 

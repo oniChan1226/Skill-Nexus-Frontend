@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
     info: "bg-blue-500 hover:bg-blue-600 text-white",
     warning: "bg-yellow-400 hover:bg-yellow-500 text-black",
     danger: "bg-red-500 hover:bg-red-600 text-white",
-    light: "hover:bg-gray-100 text-gray-800",
+    light: "hover:bg-gray-100 text-gray-800 dark:text-white/90 dark:hover:bg-dark-400/30 dark:border-dark-300",
     custom: "",
   };
 
