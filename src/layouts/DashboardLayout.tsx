@@ -1,14 +1,15 @@
-import { Outlet } from "react-router-dom"
-
+import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
   return (
     <div>
-        <div>dashboard nav</div>
+      <div>dashboard nav</div>
+      <main>
         <Outlet />
-        <div>dashboard footer</div>
+      </main>
+      <div>dashboard footer</div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;
