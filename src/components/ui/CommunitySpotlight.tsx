@@ -2,7 +2,7 @@ import { IconStar } from "@tabler/icons-react";
 import Card, { CardContent } from "../shared/Card";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import "swiper/css";
+import "swiper/swiper-bundle.css";
 
 const CommunitySpotlight = () => {
   const testimonials = [
