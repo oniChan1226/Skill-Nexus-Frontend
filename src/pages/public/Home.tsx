@@ -1,8 +1,5 @@
-import CommunitySpotlight from "../../components/ui/CommunitySpotlight"
-import Cta from "../../components/ui/Cta"
-import Features from "../../components/ui/Features"
-import Hero from "../../components/ui/Hero"
-import HowItWorks from "../../components/ui/HowItWorks"
+import { CommunitySpotlight, Cta, Features, Hero, HowItWorks } from "../../components/ui/home"
+
 
 const Home = () => {
   return (

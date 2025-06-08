@@ -1,5 +1,5 @@
 import { IconStar } from "@tabler/icons-react";
-import Card, { CardContent } from "../shared/Card";
+import Card, { CardContent } from "../../shared/Card";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/swiper-bundle.css";
@@ -86,7 +86,7 @@ const CommunitySpotlight = () => {
           >
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index}>
-                <Card className="p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-dark-400 h-full">
+                <Card className="p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-dark-400 bg-white/40 dark:bg-white/5 h-full">
                   <CardContent>
                     <div className="flex items-center mb-4">
                       <div className="h-14 w-14 mr-4 rounded-full overflow-hidden">
