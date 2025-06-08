@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import Button from "../shared/Button"
+import Button from "../../shared/Button"
 import { IconArrowRight } from "@tabler/icons-react"
 
 const Cta = () => {

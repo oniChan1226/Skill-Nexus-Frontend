@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Badge from "../shared/Badge";
-import Button from "../shared/Button";
+import Badge from "../../shared/Badge";
+import Button from "../../shared/Button";
 import { IconArrowRight } from "@tabler/icons-react";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
@@ -19,7 +19,9 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative py-16 sm:py-24">
+    <section className="relative py-24 overflow-hidden"
+    >
+
       <motion.div
         initial="hidden"
         animate="show"
@@ -49,7 +51,7 @@ const Hero = () => {
             <Link to="/signup">
               <Button className="text-lg font-semibold shadow-xl px-6 py-2">
                 <span className="flex items-center">
-                  Join Now
+                  Start Exchanging
                   <IconArrowRight className="ml-2 h-5 w-5" />
                 </span>
               </Button>
@@ -76,7 +78,7 @@ const Hero = () => {
             transition: { staggerChildren: 0.2 },
           },
         }}
-        className="mt-16 bg-gray-50 dark:bg-dark-400/20 py-12"
+        className="mt-16 bg-gray-50 dark:bg-dark-400/20 py-12 "
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
