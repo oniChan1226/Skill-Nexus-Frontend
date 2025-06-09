@@ -39,7 +39,7 @@ const PasswordField = ({
         <button
           type="button"
           onClick={() => setShow((prev) => !prev)}
-          className="absolute right-3 text-gray-400"
+          className="absolute right-3 text-gray-400 cursor-pointer"
         >
           {show ? <IconEye size={20} /> : <IconEyeOff size={20} />}
         </button>

@@ -13,29 +13,29 @@ const Signup = lazy(() => import("../pages/auth/Signup"));
 const Home = lazy(() => import("../pages/public/Home"));
 
 // Protected
-const Dashboard = lazy(() => import("../pages/protected/dashboard"));
+const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
 
 const AppRoutes = () => (
   <Suspense fallback={<Loading />}>
-    <Routes>
-      {/* 404 Handler */}
-      <Route path="*" element={<NotFound />} />
-      {/* Auth */}
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Route>
-      {/* Public */}
-      <Route element={<Publiclayout />}>
-        <Route index element={<Home />} />
-      </Route>
-      {/* Protected */}
-      <Route element={<AuthGuard />}>
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Dashboard />} />
+      <Routes>
+        {/* 404 Handler */}
+        <Route path="*" element={<NotFound />} />
+        {/* Auth */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Route>
-      </Route>
-    </Routes>
+        {/* Public */}
+        <Route element={<Publiclayout />}>
+          <Route index element={<Home />} />
+        </Route>
+        {/* Protected */}
+        <Route element={<AuthGuard />}>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+          </Route>
+        </Route>
+      </Routes>
   </Suspense>
 );
 
