@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Enter a valid email"),
+  credential: z.string().min(1, "Email or username is required"),
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
@@ -9,11 +9,10 @@ export const loginSchema = z.object({
     .regex(/[a-z]/, "Must include at least one lowercase letter")
     .regex(/[0-9]/, "Must include at least one number")
     .regex(/[@$!%*?&#]/, "Must include one special character"),
-  remember: z.boolean().optional(),
 });
 
 export const signupSchema = z.object({
-  fullName: z.string().min(2, "Full name is required"),
+  name: z.string().min(2, "Full name is required"),
   age: z
     .number({
       required_error: "Age is required",
@@ -37,4 +36,7 @@ export const signupSchema = z.object({
     .regex(/[a-z]/, "Must include at least one lowercase letter")
     .regex(/[0-9]/, "Must include at least one number")
     .regex(/[@$!%*?&#]/, "Must include one special character"),
+  agreement: z.literal(true, {
+    errorMap: () => ({ message: "You must accept the terms" }),
+  }),
 });
