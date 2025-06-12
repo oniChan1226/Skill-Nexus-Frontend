@@ -5,7 +5,7 @@ import { Navigate, Outlet } from "react-router-dom";
 const AuthGuard = () => {
   const user = useSelector((state: RootState) => state.auth?.user);
 
-  if (!user) return <Navigate to="/" replace/>;
+  if (!user) return <Navigate to="/login" replace/>;
 
   return <Outlet />;
 };

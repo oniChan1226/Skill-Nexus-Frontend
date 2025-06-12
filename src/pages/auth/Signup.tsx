@@ -29,8 +29,6 @@ const Signup = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  console.log("rendered");
-
   const {
     register,
     formState: { errors },

@@ -39,8 +39,6 @@ const Login = () => {
   const handleLogin = async (data: LoginFormData) => {
     try {
       const response = await loginUser(data).unwrap();
-  console.log("response", response?.user);
-
       toast.success(response?.message);
       dispatch(setUser(response?.user));
       navigate("/dashboard", { replace: true });

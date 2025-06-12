@@ -1,17 +1,14 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { baseUrl } from "../constants/constants";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import type { UserModal } from "../types/user.types";
 import type { ApiResponse } from "../types/services.types";
 import type { LoginFormData, SignupFormData } from "../types/auth.types";
+import { baseQueryWithReauth } from ".";
 
 type AuthUserResponse = ApiResponse<{ user: UserModal }>;
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/auth`,
-    credentials: "include",
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     registerUser: builder.mutation<AuthUserResponse, SignupFormData>({
       query: (newUser) => ({

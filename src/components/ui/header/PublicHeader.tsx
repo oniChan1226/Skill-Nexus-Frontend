@@ -5,21 +5,9 @@ import ThemeToggle from "../../shared/ThemeToggle";
 import Button from "../../shared/Button";
 import { WebName } from "../../../constants/constants";
 import { motion, AnimatePresence } from "framer-motion";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../../app/store";
-import { useLogoutUserMutation } from "../../../services/auth.service";
-import { clearUser } from "../../../features/auth/authSlice";
 
 const PublicHeader = () => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
-  const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleLogout = () => {
-    logoutUser();
-    dispatch(clearUser());
-  } 
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
@@ -66,36 +54,16 @@ const PublicHeader = () => {
               <span>4,802 Online</span>
             </div>
             <ThemeToggle />
-            {user ? (
-              <>
-                <Link to="/dashboard">
-                  <Button variant="primary" className="px-4 py-1">
-                    Dashboard
-                  </Button>
-                </Link>
-                <Button
-                  variant="light"
-                  className=" px-4 py-1"
-                  onClick={handleLogout}
-                  disabled={isLoading}
-                >
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="light" className="px-4 py-1">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button variant="primary" className="px-4 py-1">
-                    Join Now
-                  </Button>
-                </Link>
-              </>
-            )}
+            <Link to="/login">
+              <Button variant="light" className="px-4 py-1">
+                Login
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="primary" className="px-4 py-1">
+                Join Now
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
@@ -129,31 +97,16 @@ const PublicHeader = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-2 pt-2 text-lg">
-                {user ? (
-                  <>
-                    <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
-                      <Button variant="primary" className="w-full">
-                        Dashboard
-                      </Button>
-                    </Link>
-                    <Button variant="light" className="w-full" onClick={handleLogout} disabled={isLoading}>
-                      Logout
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                      <Button variant="light" className="w-full">
-                        Login
-                      </Button>
-                    </Link>
-                    <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
-                      <Button variant="primary" className="w-full">
-                        Join Now
-                      </Button>
-                    </Link>
-                  </>
-                )}
+                <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="light" className="w-full">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="primary" className="w-full">
+                    Join Now
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           )}
