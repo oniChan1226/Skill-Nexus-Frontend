@@ -1,34 +1,73 @@
-import {
-  IconCalendar,
-  IconEye,
-  IconEyeOff,
-  IconLock,
-  IconMail,
-  IconUser,
-  IconUserCode,
-} from "@tabler/icons-react";
+import { IconCalendar, IconMail, IconUser } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { signupSchema } from "../../schemas/Auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { z } from "zod";
 import { useState } from "react";
 import { AuthForm } from "../../components/ui/auth";
+import { useRegisterUserMutation } from "../../services/auth.service";
+import type { SignupFormData } from "../../types/auth.types";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../app/store";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../../features/auth/authSlice";
+import { handleServerErrorsGeneric } from "../../utils/handlers";
+import UsernameField from "../../components/shared/UsernameField";
+import InputField from "../../components/shared/InputField";
+import PasswordField from "../../components/shared/PasswordField";
 
-type SignupFormData = z.infer<typeof signupSchema>;
+const signupFieldMap: Record<string, keyof SignupFormData> = {
+  password: "password",
+  username: "username",
+  email: "email",
+  age: "age",
+  agreement: "agreement",
+};
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [registerUser] = useRegisterUserMutation();
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const {
     register,
     formState: { errors },
+    setError,
+    setValue,
     handleSubmit,
+    clearErrors,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
+  const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
+
   const handleSignup = async (data: SignupFormData) => {
-    console.log("Form submitted ✅", data);
+    setLoading(true);
+    try {
+      const response = await registerUser(data).unwrap();
+      toast.success(response?.message);
+      dispatch(setUser(response?.user));
+      navigate("/dashboard", { replace: true }); // TODO: go to profile setup
+    } catch (error: any) {
+      if (error?.data?.data) {
+        setError("username", {
+          type: "server",
+          message: "Username is already taken",
+        });
+        setUsernameSuggestions(error?.data?.data);
+      } else {
+        handleServerErrorsGeneric<SignupFormData>(
+          error,
+          setError,
+          toast.error,
+          signupFieldMap
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,174 +78,65 @@ const Signup = () => {
       footerText="Already have an account?"
       footerLinkText="Login"
       footerLinkTo="/login"
+      isLoading={loading}
+      loaderFallbackText="Registering"
       onSubmit={handleSubmit(handleSignup)}
     >
       <div className="grid grid-cols-2 gap-2">
         {/* Name */}
-        <div className="flex flex-col">
-          <label
-            htmlFor="fullName"
-            className="text-lg lg:text-lg font-semibold text-black/80"
-          >
-            Name
-          </label>
-          <div className="relative flex items-center">
-            <IconUser className="absolute left-3 text-gray-400" size={18} />
-            <input
-              type="text"
-              id="fullName"
-              placeholder="John"
-              {...register("fullName")}
-              className={`pl-10 pr-3 py-2 w-full rounded-md 
-    border 
-    ${
-      errors.fullName
-        ? "border-danger focus:ring-danger"
-        : "border-gray-300 focus:ring-indigo-400"
-    } 
-    focus:outline-none focus:ring-1
-  `}
-            />
-          </div>
-          {errors.fullName && (
-            <p className="text-danger text-sm pl-1">
-              {errors.fullName.message}
-            </p>
-          )}
-        </div>
+        <InputField
+          id="name"
+          label="Name"
+          placeholder="John"
+          icon={<IconUser size={18} />}
+          error={errors.name}
+          register={register("name")}
+        />
         {/* Age */}
-        <div className="flex flex-col">
-          <label
-            htmlFor="age"
-            className="text-lg lg:text-lg font-semibold text-black/80"
-          >
-            Age
-          </label>
-          <div className="relative flex items-center">
-            <IconCalendar className="absolute left-3 text-gray-400" size={18} />
-            <input
-              type="name"
-              id="age"
-              placeholder=""
-              {...register("age")}
-              className={`pl-10 pr-3 py-2 w-full rounded-md 
-    border 
-    ${
-      errors.age
-        ? "border-danger focus:ring-danger"
-        : "border-gray-300 focus:ring-indigo-400"
-    } 
-    focus:outline-none focus:ring-1
-  `}
-            />
-          </div>
-          {errors.age && (
-            <p className="text-danger text-sm pl-1">{errors.age.message}</p>
-          )}
-        </div>
+        <InputField
+          id="age"
+          label="Age"
+          placeholder="25"
+          type="number"
+          icon={<IconCalendar size={18} />}
+          error={errors.age}
+          register={register("age", { valueAsNumber: true })}
+        />
       </div>
       {/* Username */}
-      <div className="flex flex-col space-y-1">
-        <label
-          htmlFor="username"
-          className="text-lg lg:text-lg font-semibold text-black/80"
-        >
-          Username
-        </label>
-        <div className="relative flex items-center">
-          <IconUserCode className="absolute left-3 text-gray-400" size={18} />
-          <input
-            type="text"
-            id="username"
-            placeholder="johndoe123"
-            {...register("username")}
-            className={`pl-10 pr-3 py-2 w-full rounded-md 
-    border 
-    ${
-      errors.username
-        ? "border-danger focus:ring-danger"
-        : "border-gray-300 focus:ring-indigo-400"
-    } 
-    focus:outline-none focus:ring-1
-  `}
-          />
-        </div>
-        {errors.username && (
-          <p className="text-danger text-sm pl-1">{errors.username.message}</p>
-        )}
-      </div>
-      <div className="flex flex-col space-y-1">
-        <label
-          htmlFor="email"
-          className="text-lg lg:text-lg font-semibold text-black/80"
-        >
-          Email
-        </label>
-        <div className="relative flex items-center">
-          <IconMail className="absolute left-3 text-gray-400" size={18} />
-          <input
-            type="email"
-            id="email"
-            placeholder="you@example.com"
-            {...register("email")}
-            className={`pl-10 pr-3 py-2 w-full rounded-md 
-    border 
-    ${
-      errors.email
-        ? "border-danger focus:ring-danger"
-        : "border-gray-300 focus:ring-indigo-400"
-    } 
-    focus:outline-none focus:ring-1
-  `}
-          />
-        </div>
-        {errors.email && (
-          <p className="text-danger text-sm pl-1">{errors.email.message}</p>
-        )}
-      </div>
+      <UsernameField
+        register={register("username")}
+        error={errors.username}
+        suggestions={usernameSuggestions}
+        onSuggestionClick={(val) => {
+          setValue("username", val);
+          clearErrors("username");
+          setUsernameSuggestions([]);
+        }}
+      />
+      {/* Email */}
+      <InputField
+        id="email"
+        label="Email"
+        type="email"
+        placeholder="you@example.com"
+        icon={<IconMail size={18} />}
+        error={errors.email}
+        register={register("email")}
+        autoComplete="email"
+      />
       {/* Password */}
-      <div className="flex flex-col space-y-1">
-        <div className="flex justify-between items-center">
-          <label
-            htmlFor="password"
-            className="text-lg lg:text-lg font-semibold text-black/80"
-          >
-            Password
-          </label>
-          <h2 className="hover:underline cursor-pointer">Forgot Password?</h2>
-        </div>
-        <div className="relative flex items-center">
-          <IconLock className="absolute left-3 text-gray-400" size={18} />
-          <button
-            className="absolute right-3 text-gray-400 cursor-pointer"
-            onClick={() => setShowPassword((prev) => !prev)}
-          >
-            {showPassword ? <IconEye size={25} /> : <IconEyeOff size={25} />}
-          </button>
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            placeholder="You@123!"
-            {...register("password")}
-            className={`pl-10 pr-3 py-2 w-full rounded-md 
-    border 
-    ${
-      errors.password
-        ? "border-danger focus:ring-danger"
-        : "border-gray-300 focus:ring-indigo-400"
-    } 
-    focus:outline-none focus:ring-1
-  `}
-          />
-        </div>
-        {errors.password && (
-          <p className="text-danger text-sm pl-1">{errors.password.message}</p>
-        )}
-      </div>
-      <div className="flex justify-start items-center space-x-2 mb-4">
+      <PasswordField
+        id="password"
+        error={errors.password}
+        forgotPassword={false}
+        register={register("password")}
+      />
+
+      <div className="flex justify-start items-center space-x-2">
         <input
           type="checkbox"
-          name="agreement"
+          {...register("agreement")}
           id="agreement"
           className="scale-125 accent-indigo-500 cursor-pointer"
         />
@@ -216,6 +146,9 @@ const Signup = () => {
           <span className="hover:underline">privacy policy</span>
         </label>
       </div>
+      {errors.agreement && (
+        <p className="text-danger text-md pl-1">{errors.agreement.message}</p>
+      )}
     </AuthForm>
   );
 };

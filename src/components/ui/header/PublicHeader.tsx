@@ -21,26 +21,26 @@ const PublicHeader = () => {
 
   return (
     <header className="bg-white dark:bg-dark-500 border-b border-gray-200 dark:border-dark-400/50 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-4 relative">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <IconUsers className="h-5 w-5 text-indigo-500" stroke={2} />
             <Link
               to="/"
-              className="text-xl font-bold text-dark-500/80 dark:text-white"
+              className="text-2xl font-bold text-dark-500/80 dark:text-white"
             >
               {WebName}
             </Link>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-8 font-semibold">
+          <nav className="hidden lg:flex items-center space-x-8 font-medium text-lg">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-gray-600 dark:text-white/80 dark:hover:text-white hover:text-gray-900 transition-colors tracking-wide"
+                className="text-gray-600 dark:text-white/80 dark:hover:text-white hover:text-gray-900 transition-colors"
               >
                 {link.name}
               </Link>
@@ -48,7 +48,7 @@ const PublicHeader = () => {
           </nav>
 
           {/* Desktop Buttons */}
-          <div className="hidden sm:flex items-center space-x-2">
+          <div className="hidden sm:flex items-center space-x-2 text-lg">
             <div className="hidden sm:flex items-center space-x-1 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
               <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
               <span>4,802 Online</span>
@@ -96,7 +96,7 @@ const PublicHeader = () => {
                   {link.name}
                 </Link>
               ))}
-              <div className="flex flex-col space-y-2 pt-2">
+              <div className="flex flex-col space-y-2 pt-2 text-lg">
                 <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                   <Button variant="light" className="w-full">
                     Login
