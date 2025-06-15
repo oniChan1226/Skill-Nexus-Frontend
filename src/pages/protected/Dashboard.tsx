@@ -2,7 +2,7 @@
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div className="min-h-[200vh]">Dashboard</div>
   )
 }
 
