@@ -18,8 +18,6 @@ export const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  console.log("result:: ", result);
-
   if (result.error?.status === 401) {
     const refreshResult = await baseQuery("/refresh", api, extraOptions);
     if (refreshResult?.data) {

@@ -10,7 +10,7 @@ const Login = lazy(() => import("../pages/auth/Login"));
 const Signup = lazy(() => import("../pages/auth/Signup"));
 
 // Public
-const Home = lazy(() => import("../pages/public/Home"));
+const Home = lazy(() => import(/* webpackPrefetch: true */ "../pages/public/Home"));
 
 // Protected
 const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
