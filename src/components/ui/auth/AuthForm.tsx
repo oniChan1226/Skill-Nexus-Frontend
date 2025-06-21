@@ -39,7 +39,7 @@ const AuthForm = ({
     >
       {/* Headings */}
       <div className="flex flex-col justify-center items-center space-y-2 mb-6">
-        <h2 className="text-3xl lg:text-4xl font-semibold text-black/90">
+        <h2 className="text-3xl xl:text-4xl font-semibold text-black/90">
           {title}
         </h2>
         <p className="text-gray-600/80 tracking-wide xl:text-lg">{subtitle}</p>
@@ -73,12 +73,12 @@ const AuthForm = ({
       </div>
 
       {/* Form */}
-      <form className="space-y-4" onSubmit={onSubmit}>
+      <form className="space-y-2 md:space-y-4" onSubmit={onSubmit}>
         {children}
         <Button
           variant="custom"
           type="submit"
-          className="w-full py-2 text-xl border-gray-300 bg-indigo-500 text-white border hover:bg-indigo-500/90 flex justify-center items-center"
+          className="w-full py-2 text-lg xl:text-xl border-gray-300 bg-indigo-500 text-white border hover:bg-indigo-500/90 flex justify-center items-center"
           disabled={isLoading}
         >
           {isLoading ? <><HashLoader color="white" size={20} className="mr-1"/> {loaderFallbackText}</> : actionLabel}

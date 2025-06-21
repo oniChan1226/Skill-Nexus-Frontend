@@ -133,7 +133,7 @@ const Signup = () => {
         register={register("password")}
       />
 
-      <div className="flex justify-start items-center space-x-2">
+      <div className="flex justify-start items-center space-x-2 text-xs md:text-sm">
         <input
           type="checkbox"
           {...register("agreement")}
