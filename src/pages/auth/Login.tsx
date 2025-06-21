@@ -41,7 +41,7 @@ const Login = () => {
       const response = await loginUser(data).unwrap();
       toast.success(response?.message);
       dispatch(setUser(response?.user));
-      navigate("/dashboard", { replace: true });
+      setTimeout(() => navigate("/dashboard"), 500);
     } catch (error: any) {
       handleServerErrorsGeneric<LoginFormData>(
         error,

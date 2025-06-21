@@ -5,7 +5,7 @@ import PublicFooter from "../components/ui/footer/PublicFooter"
 
 const Publiclayout = () => {
   return (
-    <div>
+    <div className="selection:bg-indigo-200 dark:selection:bg-indigo-500">
         <PublicHeader />
         <Outlet />
         <PublicFooter />

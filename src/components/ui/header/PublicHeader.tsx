@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { IconMenu2, IconUsers, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 import ThemeToggle from "../../shared/ThemeToggle";
 import Button from "../../shared/Button";
 import { WebName } from "../../../constants/constants";
@@ -25,10 +25,16 @@ const PublicHeader = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <IconUsers className="h-5 w-5 text-indigo-500" stroke={2} />
+            <div className="w-12 h-12 overflow-hidden rounded-full flex items-center justify-center bg-white dark:bg-dark-500">
+              <img
+                src="logo.png"
+                alt="Logo"
+                className="w-full h-full object-contain scale-[1.2] md:scale-[1.8]"
+              />
+            </div>
             <Link
               to="/"
-              className="text-2xl font-bold text-dark-500/80 dark:text-white"
+              className="text-md sm:text-lg md:text-2xl font-bold text-dark-500/80 dark:text-white"
             >
               {WebName}
             </Link>

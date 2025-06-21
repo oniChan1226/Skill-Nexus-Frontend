@@ -61,7 +61,7 @@ const itemVariants = {
 
 const AuthHero = () => {
   return (
-    <section className="flex flex-col justify-between items-start text-black/90 dark:text-white/90 text-left px-6 py-12 w-full h-full bg-gradient-to-br from-purple-100 via-blue-100 to-teal-100 dark:bg-dark-500 dark:from-gray-900 dark:via-purple-800/20 dark:to-blue-600/30">
+    <section className="flex flex-col justify-between items-start text-black/90 dark:text-white/90 text-left px-3 xl:px-6 py-3 xl:py-12 w-full h-full bg-gradient-to-br from-purple-100 via-blue-100 to-teal-100 dark:bg-dark-500 dark:from-gray-900 dark:via-purple-800/20 dark:to-blue-600/30">
       {/* Quote */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -69,7 +69,7 @@ const AuthHero = () => {
         transition={{ duration: 0.6 }}
         className="flex flex-col ml-4 p-3 capitalize dark:bg-white/5 rounded-xl"
       >
-        <h1 className="text-xl md:text-2xl leading-tight relative capitalize">
+        <h1 className="text-xl xl:text-2xl leading-tight relative capitalize">
           <IconQuote
             stroke={2}
             className="rotate-180 absolute -top-2 -left-6"
@@ -118,7 +118,7 @@ const AuthHero = () => {
               size={24}
               stroke={1.5}
             />
-            <p className="text-black/80 dark:text-white/80 text-sm lg:text-md font-semibold">{title}</p>
+            <p className="text-black/80 dark:text-white/80 text-xs xl:text-md font-semibold">{title}</p>
           </motion.div>
         ))}
       </motion.div>

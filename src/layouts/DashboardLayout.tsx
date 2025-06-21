@@ -1,23 +1,17 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
 import Sidebar from "../pages/protected/Sidebar";
 import { motion, AnimatePresence } from "framer-motion";
-import type { RootState } from "../app/store";
 import { IconMenu } from "@tabler/icons-react";
+import DashboardHeader from "../components/ui/header/DashboardHeader";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const theme = useSelector((state: RootState) => state.theme.theme);
 
-  const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Toasts */}
-      <ToastContainer theme={theme === "dark" ? "dark" : "light"} />
-
+    <div className="h-screen w-screen overflow-hidden bg-teal-50 dark:bg-dark-600 selection:bg-indigo-200 dark:selection:bg-indigo-500">
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between bg-blue-500 p-4 text-white">
         <span className="text-lg font-semibold">Dashboard</span>
@@ -26,7 +20,7 @@ const DashboardLayout = () => {
         </button>
       </div>
 
-      {/* Sidebar (mobile + desktop) */}
+      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.aside
@@ -47,16 +41,23 @@ const DashboardLayout = () => {
         )}
       </AnimatePresence>
 
-      {/* Static Sidebar for Desktop */}
-      <aside className="hidden md:block w-64 bg-blue-600 text-white p-4">
-        <Sidebar />
-      </aside>
+      {/* Grid Layout for Desktop */}
+      <div className="hidden md:grid grid-cols-[16rem_1fr] grid-rows-[4rem_1fr] h-full">
+        {/* Sidebar (Fixed) */}
+        <aside className="row-span-2 bg-white dark:bg-dashboard-50 p-4 border-r-[1px] border-gray-200 dark:border-gray-800">
+          <Sidebar />
+        </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white">
-        
-        <Outlet />
-      </main>
+        {/* Header (Fixed) */}
+        <header className="bg-white/90 dark:bg-dashboard-50 px-4 py-6 border-b border-dashboard-300 shadow-md flex items-center justify-between">
+          <DashboardHeader />
+        </header>
+
+        {/* Scrollable Content */}
+        <main className="overflow-y-auto px-4 py-6 bg-white/90 dark:bg-dashboard-50 dark:text-white text-black/90">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
