@@ -12,7 +12,6 @@ interface SocialLinks {
 export interface UserModal {
     name: string;
     age: number;
-    username: string;
     email: string;
     profileImage?: string;
     isVerified: boolean;
@@ -21,6 +20,7 @@ export interface UserModal {
     role: string;
     lastLogin?: Date;
     socialLinks: SocialLinks;
+    profession?: string;
     createdAt?: Date;
     updatedAt?: Date;
 };

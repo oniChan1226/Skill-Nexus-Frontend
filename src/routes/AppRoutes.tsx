@@ -14,6 +14,7 @@ const Home = lazy(() => import(/* webpackPrefetch: true */ "../pages/public/Home
 
 // Protected
 const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
+const Profile = lazy(() => import("../pages/protected/Profile"));
 
 const AppRoutes = () => (
   <Suspense fallback={<Loading />}>
@@ -33,6 +34,7 @@ const AppRoutes = () => (
         <Route element={<AuthGuard />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

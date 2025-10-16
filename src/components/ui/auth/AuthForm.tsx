@@ -35,18 +35,18 @@ const AuthForm = ({
       initial={{ opacity: 0, scale: 0.98, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="bg-white dark:bg-white/90 p-8 xl:p-12 rounded-md border-gray-200/80 shadow-sm border w-[95%] mx-auto"
+      className="bg-white dark:bg-white/90 my-4 p-4 xl:p-12 rounded-md border-gray-200/80 shadow-sm border w-[95%] mx-auto"
     >
       {/* Headings */}
       <div className="flex flex-col justify-center items-center space-y-2 mb-6">
-        <h2 className="text-3xl xl:text-4xl font-semibold text-black/90">
+        <h2 className="text-3xl xl:text-4xl font-semibold text-black/90 text-center">
           {title}
         </h2>
-        <p className="text-gray-600/80 tracking-wide xl:text-lg">{subtitle}</p>
+        <p className="text-gray-600/80 tracking-wide text-sm xl:text-md text-center">{subtitle}</p>
       </div>
 
       {/* OAuth Buttons */}
-      <div className="flex justify-center items-center space-x-3">
+      <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-3">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
@@ -66,7 +66,7 @@ const AuthForm = ({
       </div>
 
       {/* Divider */}
-      <div className="flex items-center my-4 gap-4 text-gray-500 text-sm">
+      <div className="flex items-center my-4 gap-4 text-gray-500 text-xs lg:text-sm">
         <span className="flex-1 h-px bg-gray-300" />
         OR CONTINUE WITH
         <span className="flex-1 h-px bg-gray-300" />

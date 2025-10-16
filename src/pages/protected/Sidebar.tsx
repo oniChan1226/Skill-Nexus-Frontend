@@ -2,13 +2,11 @@ import {
   IconLayoutDashboard,
   IconUsers,
   IconUserCircle,
-  IconSettings,
-  IconShield,
 } from "@tabler/icons-react";
 import { WebName } from "../../constants/constants";
 import { NavLink } from "react-router-dom";
 
-const links = [
+export const links = [
   {
     label: "Dashboard",
     icon: <IconLayoutDashboard size={18} />,
@@ -20,26 +18,9 @@ const links = [
     path: "/users",
   },
   {
-    label: "Account",
+    label: "Profile",
     icon: <IconUserCircle size={18} />,
-    path: "/account",
-    children: [
-      {
-        label: "Profile",
-        path: "/account/profile",
-        icon: <IconUserCircle size={16} />,
-      },
-      {
-        label: "Settings",
-        path: "/account/settings",
-        icon: <IconSettings size={16} />,
-      },
-      {
-        label: "Security",
-        path: "/account/security",
-        icon: <IconShield size={16} />,
-      },
-    ],
+    path: "profile",
   },
 ];
 
@@ -72,18 +53,19 @@ const Sidebar = () => {
 
       {/* Links */}
       <div className=" mt-6">
-        <h2 className="mb-2 dark:text-neutral-300 text-neutral-700">
+        <h2 className="mb-2 dark:text-neutral-300 text-neutral-700 font-bold">
           Platform
         </h2>
         <nav className="space-y-1">
           {links.map((link) => (
             <NavLink
-              key={link.path}
-              to={link.path}
+            key={link.path}
+            to={link.path}
+            end
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm font-medium ${
+                `flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-md font-medium ${
                   isActive
-                    ? "bg-indigo-100 text-indigo-600 dark:bg-indigo-500 dark:text-white"
+                    ? "bg-indigo-100/50 text-indigo-600 dark:bg-indigo-500 dark:text-white"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-x-1 transition-translate duration-200"
                 }`
               }

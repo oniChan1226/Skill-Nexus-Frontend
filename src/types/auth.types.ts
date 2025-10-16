@@ -1,15 +1,12 @@
 
 interface AuthCredentials {
-  credential: string;
+  email: string;
   password: string;
 }
 
-export interface SignupFormData {
+export interface SignupFormData extends AuthCredentials {
   name: string;
   age: number;
-  email: string;
-  username: string;
-  password: string;
   agreement: true;
 }
 

@@ -16,8 +16,7 @@ import PasswordField from "../../components/shared/PasswordField";
 
 const loginFieldMap: Record<string, keyof LoginFormData> = {
   password: "password",
-  email: "credential",
-  username: "credential",
+  email: "email",
 };
 
 const Login = () => {
@@ -69,10 +68,10 @@ const Login = () => {
         id="credential"
         label="Credential"
         type="text"
-        placeholder="Email or username"
+        placeholder="Email"
         icon={<IconMail size={18} />}
-        error={errors.credential}
-        register={register("credential")}
+        error={errors.email}
+        register={register("email")}
         autoComplete="email"
       />
       {/* Password */}
@@ -89,7 +88,7 @@ const Login = () => {
           id="remember"
           className="scale-125 accent-indigo-500 cursor-pointer"
         />
-        <label htmlFor="remember" className=" cursor-pointer">
+        <label htmlFor="remember" className="text-sm cursor-pointer">
           Remember me
         </label>
       </div>
