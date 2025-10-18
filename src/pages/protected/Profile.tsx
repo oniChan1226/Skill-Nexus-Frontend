@@ -8,9 +8,20 @@ import {
   IconTrophy,
   IconCalendar,
   IconBadge,
+  IconSettings,
 } from "@tabler/icons-react";
 import { shallowEqual, useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
+import Button from "@/components/shared/Button";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
@@ -18,16 +29,48 @@ const Profile = () => {
 
   return (
     <section className="max-w-5xl mx-auto space-y-8">
+      <div className="flex items-center justify-between">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/dashboard">Dashboard</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Profile</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Link to={"settings"}>
+          <Button className="px-6 py-2 flex items-center space-x-2 group transition-all duration-300">
+            <IconSettings className="transition-transform duration-300 group-hover:rotate-180" />
+            <span className="font-semibold">Edit</span>
+          </Button>
+        </Link>
+      </div>
+
       {/* === Banner === */}
       <div className="flex py-5 px-4 items-center justify-between border border-indigo-200/50 bg-gradient-to-br from-indigo-50/70 to-white/60 dark:from-indigo-950/60 dark:to-neutral-900/60 backdrop-blur-lg rounded-2xl shadow-md overflow-hidden">
         {/* Avatar */}
         <div className=" left-6 flex items-center justify-center gap-4">
           <div className="relative">
-            <img
-              src={user.profileImage || "/Images/avatars/user-1.jpg"}
-              alt="User Avatar"
-              className="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white object-cover shadow-xl"
-            />
+            {user.profileImage ? (
+              <img
+                src={user.profileImage}
+                alt="User Avatar"
+                className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover shadow-xl border-4 border-indigo-100 dark:border-indigo-700"
+              />
+            ) : (
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-bold shadow-xl border-4 border-indigo-100 dark:border-indigo-700">
+                {user.name
+                  ?.split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .toUpperCase() || "U"}
+              </div>
+            )}
             <button
               className="absolute bottom-1 right-1 bg-white/80 p-1.5 rounded-full shadow-md hover:scale-105 transition"
               title="Change photo"
@@ -95,7 +138,7 @@ const Profile = () => {
 
       {/* === Profile Info Cards === */}
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="bg-white dark:bg-gray-800/60 rounded-xl p-5 shadow hover:shadow-lg transition">
+        <div className="bg-white dark:bg-neutral-900/90 rounded-xl p-5 shadow hover:shadow-lg transition">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
               Rating
@@ -110,7 +153,7 @@ const Profile = () => {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800/60 rounded-xl p-5 shadow hover:shadow-lg transition">
+        <div className="bg-white dark:bg-neutral-900/90 rounded-xl p-5 shadow hover:shadow-lg transition">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
               City
@@ -125,7 +168,7 @@ const Profile = () => {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800/60 rounded-xl p-5 shadow hover:shadow-lg transition">
+        <div className="bg-white dark:bg-neutral-900/90 rounded-xl p-5 shadow hover:shadow-lg transition">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
               Profession
@@ -142,7 +185,7 @@ const Profile = () => {
       </div>
 
       {/* === About Section === */}
-      <div className="bg-white dark:bg-gray-800/60 rounded-xl p-6 shadow hover:shadow-lg transition">
+      <div className="bg-white dark:bg-neutral-900/90 rounded-xl p-6 shadow hover:shadow-lg transition">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white flex items-center gap-2">
           <IconUser size={20} /> About
         </h3>

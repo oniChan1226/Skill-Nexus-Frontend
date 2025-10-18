@@ -7,8 +7,11 @@ interface ThemeState {
   theme: Theme;
 }
 
+const savedTheme = (localStorage.getItem("theme") as Theme) || "light";
+document.documentElement.setAttribute("data-theme", savedTheme);
+
 const initialState: ThemeState = {
-  theme: (localStorage.getItem("theme") as Theme) || "light",
+  theme: savedTheme,
 };
 
 const themeSlice = createSlice({

@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   ...props
 }) => {
-  const baseClasses = "rounded cursor-pointer duration-300";
+  const baseClasses = "rounded-lg cursor-pointer duration-300";
 
   const variantClasses = {
     primary: "bg-indigo-500 hover:bg-indigo-600 text-white/90",

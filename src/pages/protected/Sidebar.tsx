@@ -66,7 +66,7 @@ const Sidebar = () => {
                 `flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-md font-medium ${
                   isActive
                     ? "bg-indigo-100/50 text-indigo-600 dark:bg-indigo-500 dark:text-white"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-x-1 transition-translate duration-200"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-indigo-100/50 dark:hover:bg-indigo-950 hover:-translate-x-1 transition-translate duration-200"
                 }`
               }
             >

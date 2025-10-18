@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLogoutUserMutation } from "../../../services/auth.service";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { links } from "@/pages/protected/Sidebar";
 
 const DashboardHeader = () => {
@@ -37,7 +37,7 @@ const DashboardHeader = () => {
   };
 
   return (
-    <header className="flex items-center justify-between w-full px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-500 relative">
+    <header className="flex items-center justify-between w-full px-4 py-3 border-b border-neutral-200 dark:border-neutral-700  relative">
       {/* === LEFT: Logo === */}
       <div className="flex items-center gap-1">
         <img
@@ -45,7 +45,7 @@ const DashboardHeader = () => {
           alt="Skill Nexus"
           className="w-14 h-8 object-cover rounded"
         />
-        <h1 className="font-semibold text-lg text-gray-800 dark:text-white tracking-wide">
+        <h1 className="font-semibold text-lg text-neutral-800 dark:text-white tracking-wide">
           Skill Nexus
         </h1>
       </div>
@@ -54,20 +54,20 @@ const DashboardHeader = () => {
       <div className="flex items-center gap-2 md:gap-3">
         {/* Hamburger (mobile only) */}
         <button
-          className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          className="md:hidden p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-900 transiation"
           onClick={() => setMenuOpen((prev) => !prev)}
         >
           {menuOpen ? (
-            <IconX size={22} className="text-gray-800 dark:text-white" />
+            <IconX size={22} className="text-neutral-800 dark:text-white" />
           ) : (
-            <IconMenu2 size={22} className="text-gray-800 dark:text-white" />
+            <IconMenu2 size={22} className="text-neutral-800 dark:text-white" />
           )}
         </button>
 
         {/* Search (desktop only) */}
-        <div className="hidden md:flex items-center relative border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1.5 w-64 focus-within:border-indigo-500 transition-colors duration-200">
+        <div className="hidden md:flex bg-white/10 dark:bg-neutral-900 items-center relative border border-neutral-300 dark:border-neutral-600 rounded-md px-3 py-1.5 w-64  focus-within:border-indigo-500 transition-colors duration-300">
           <IconSearch
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 dark:text-neutral-400"
             size={18}
           />
           <input
@@ -78,9 +78,9 @@ const DashboardHeader = () => {
         </div>
 
         {/* Bell */}
-        <button className="hidden md:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+        <button className="hidden md:flex p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-900 transition">
           <IconBell
-            className={theme === "dark" ? "text-white" : "text-gray-700"}
+            className={theme === "dark" ? "text-white" : "text-neutral-700"}
             stroke={1.5}
             size={22}
           />
@@ -94,7 +94,7 @@ const DashboardHeader = () => {
         {/* User profile */}
         <div className="relative">
           <div
-            className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:ring-2 hover:ring-indigo-400 duration-200 overflow-hidden"
+            className="flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer hover:ring-2 hover:bg-neutral-100 dark:hover:bg-neutral-900 duration-300 overflow-hidden"
             onClick={() => setOpenDropdown((prev) => !prev)}
           >
             {user?.profileImage ? (
@@ -105,8 +105,8 @@ const DashboardHeader = () => {
               />
             ) : (
               <IconUser
-                className={theme === "dark" ? "text-white" : "text-gray-800"}
-                size={26}
+                className={theme === "dark" ? "text-white" : "text-neutral-800"}
+                size={22}
                 stroke={1.2}
               />
             )}
@@ -121,14 +121,14 @@ const DashboardHeader = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-11 right-4 w-3.5 h-3.5 bg-white dark:bg-gray-800 rotate-45 border-l border-t border-gray-200 dark:border-gray-600 z-20"
+                  className="absolute top-12 right-4 w-4 h-4 bg-white dark:bg-neutral-900 rotate-45 border-l border-t border-neutral-200 dark:border-neutral-600 z-20"
                 />
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.25 }}
-                  className="absolute top-14 right-0 w-72 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 z-10 p-4"
+                  className="absolute top-14 right-0 w-72 bg-white dark:bg-neutral-900 shadow-lg rounded-lg border border-neutral-200 dark:border-neutral-700 z-10 p-4"
                 >
                   <div className="flex items-center gap-3">
                     {user?.profileImage ? (
@@ -143,36 +143,55 @@ const DashboardHeader = () => {
                       </div>
                     )}
                     <div>
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <p className="text-sm font-semibold text-neutral-900 dark:text-white">
                         {user?.name}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400">
                         {user?.email}
                       </p>
                     </div>
                   </div>
 
-                  <hr className="my-3 border-gray-200 dark:border-gray-700" />
-                  <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                  <hr className="my-3 border-neutral-200 dark:border-neutral-700" />
+                  <ul className=" text-neutral-700 dark:text-neutral-300 space-y-1">
                     {[
-                      { icon: <IconUser size={16} />, label: "My Profile" },
+                      {
+                        icon: <IconUser size={16} />,
+                        label: "My Profile",
+                        to: "/dashboard/profile",
+                      },
                       {
                         icon: <IconLayoutDashboard size={16} />,
                         label: "My Skills",
+                        to: "/",
                       },
-                      { icon: <IconSearch size={16} />, label: "Skill Requests" },
-                      { icon: <IconBell size={16} />, label: "Messages" },
-                      { icon: <IconSettings size={16} />, label: "Settings" },
+                      {
+                        icon: <IconSearch size={16} />,
+                        label: "Skill Requests",
+                        to: "/",
+                      },
+                      {
+                        icon: <IconBell size={16} />,
+                        label: "Messages",
+                        to: "/",
+                      },
+                      {
+                        icon: <IconSettings size={16} />,
+                        label: "Settings",
+                        to: "/",
+                      },
                     ].map((item, i) => (
-                      <li
+                      <Link
+                        to={item.to}
                         key={i}
-                        className="flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-gray-700 px-3 py-2 rounded-md cursor-pointer transition"
+                        className="flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-neutral-800 dark:hover:text-white px-3 py-2 rounded-md cursor-pointer transition"
+                        onClick={() => setOpenDropdown((prev) => !prev)}
                       >
                         {item.icon}
                         {item.label}
-                      </li>
+                      </Link>
                     ))}
-                    <hr className="my-2 border-gray-200 dark:border-gray-700" />
+                    <hr className="my-2 border-neutral-200 dark:border-neutral-700" />
                     <li
                       onClick={handleLogout}
                       className="flex items-center gap-2 hover:bg-red-50 dark:hover:bg-red-500/10 text-red-600 dark:text-red-400 px-3 py-2 rounded-md cursor-pointer transition"
@@ -196,7 +215,7 @@ const DashboardHeader = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.25 }}
-            className="absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-md border-t border-gray-200 dark:border-gray-700 z-40 md:hidden"
+            className="absolute top-full left-0 w-full bg-white dark:bg-neutral-900 shadow-md border-t border-neutral-200 dark:border-neutral-900 z-40 md:hidden"
           >
             <ul className="flex flex-col px-4 py-3 space-y-1">
               {links.map((link) => (
@@ -209,7 +228,7 @@ const DashboardHeader = () => {
                     `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition ${
                       isActive
                         ? "bg-indigo-100 text-indigo-600 dark:bg-indigo-500 dark:text-white"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        : "text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900"
                     }`
                   }
                 >
