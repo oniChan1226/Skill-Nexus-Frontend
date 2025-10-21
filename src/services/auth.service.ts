@@ -4,7 +4,9 @@ import type { ApiResponse } from "../types/services.types";
 import type { LoginFormData, SignupFormData } from "../types/auth.types";
 import { baseQueryWithReauth } from ".";
 
-type AuthUserResponse = ApiResponse<{ user: UserModal }>;
+interface AuthUserResponse extends ApiResponse {
+  user: UserModal;
+}
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -12,31 +14,36 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     registerUser: builder.mutation<AuthUserResponse, SignupFormData>({
       query: (newUser) => ({
-        url: "/signup",
+        url: "/auth/signup",
         method: "POST",
         body: newUser,
       }),
     }),
     loginUser: builder.mutation<AuthUserResponse, LoginFormData>({
       query: (user) => ({
-        url: "/login",
+        url: "/auth/login",
         method: "POST",
         body: user,
       }),
     }),
     getCurrentUser: builder.query<AuthUserResponse, void>({
       query: () => ({
-        url: "/me",
+        url: "/auth/me",
         method: "GET",
-      })
+      }),
     }),
     logoutUser: builder.mutation<void, void>({
       query: () => ({
-        url: "/logout",
+        url: "/auth/logout",
         method: "POST",
-      })
-    })
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation, useGetCurrentUserQuery, useLogoutUserMutation } = authApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useGetCurrentUserQuery,
+  useLogoutUserMutation,
+} = authApi;

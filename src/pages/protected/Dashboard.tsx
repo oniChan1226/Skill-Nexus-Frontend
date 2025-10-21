@@ -10,6 +10,7 @@ import {
   IconCheck,
 } from "@tabler/icons-react";
 import SkillSection, { type Skill } from "@/components/SkillSection";
+import { useNavigate } from "react-router-dom";
 
 export const dashboardStats = [
   {
@@ -39,26 +40,27 @@ export const dashboardStats = [
 ];
 
 const offeredSkills: Skill[] = [
-  { name: "Web Development", category: "Technology", level: "Expert", status: "active", rating: 4.9, requests: 12 },
-  { name: "Graphic Design", category: "Design", level: "Advanced", status: "active", rating: 4.8, requests: 8 },
-  { name: "Digital Marketing", category: "Marketing", level: "Intermediate", status: "paused", rating: 4.7, requests: 5 },
+  // { name: "Web Development", category: "Technology", level: "Expert", status: "active", rating: 4.9, requests: 12 },
+  // { name: "Graphic Design", category: "Design", level: "Advanced", status: "active", rating: 4.8, requests: 8 },
+  // { name: "Digital Marketing", category: "Marketing", level: "Intermediate", status: "paused", rating: 4.7, requests: 5 },
 ];
 
 const interestedSkills: Skill[] = [
-  { name: "Public Speaking", category: "Communication", level: "Beginner", rating: 0, requests: 3, priority: "High" },
-  { name: "Video Editing", category: "Creative Media", level: "Beginner", rating: 0, requests: 2, priority: "Medium" },
-  { name: "UI/UX Design", category: "Design", level: "Intermediate", rating: 0, requests: 4, priority: "High" },
-  { name: "Data Analysis", category: "Analytics", level: "Intermediate", rating: 0, requests: 1, priority: "Low" },
-  { name: "Photography", category: "Creative Arts", level: "Beginner", rating: 0, requests: 0, priority: "Low" },
+  // { name: "Public Speaking", category: "Communication", level: "Beginner", rating: 0, requests: 3, priority: "High" },
+  // { name: "Video Editing", category: "Creative Media", level: "Beginner", rating: 0, requests: 2, priority: "Medium" },
+  // { name: "UI/UX Design", category: "Design", level: "Intermediate", rating: 0, requests: 4, priority: "High" },
+  // { name: "Data Analysis", category: "Analytics", level: "Intermediate", rating: 0, requests: 1, priority: "Low" },
+  // { name: "Photography", category: "Creative Arts", level: "Beginner", rating: 0, requests: 0, priority: "Low" },
 ];
-
-
 
 const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
 
+  const navigate = useNavigate();
+  const navigateToSkillsPage = () => navigate("skills");
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
       {/* welcome cards */}
       <div className="grid grid-cols-3 gap-3">
         {/* card - 1 */}
@@ -103,7 +105,13 @@ const Dashboard = () => {
       {/* info cards */}
       <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-2">
         {dashboardStats.map((stat) => (
-          <SkillCards key={stat.title} icon={stat.icon} title={stat.title} subText={stat.subtext} value={stat.value}  />
+          <SkillCards
+            key={stat.title}
+            icon={stat.icon}
+            title={stat.title}
+            subText={stat.subtext}
+            value={stat.value}
+          />
         ))}
       </div>
 
@@ -112,15 +120,15 @@ const Dashboard = () => {
         subtitle="Manage your offered skills and view requests"
         buttonText="Add Skill"
         skills={offeredSkills}
-        onAddClick={() => console.log("Add new skill")}
+        onAddClick={navigateToSkillsPage}
         onViewDetails={(skill) => console.log("Viewing", skill.name)}
-        />
+      />
       <SkillSection
         title="Skills I'm Seeking"
         subtitle="Skills you want to learn through exchanges"
         buttonText="Add Interest"
         skills={interestedSkills}
-        onAddClick={() => console.log("Add interest")}
+        onAddClick={navigateToSkillsPage}
         onViewDetails={(skill) => console.log("Viewing", skill.name)}
       />
     </div>

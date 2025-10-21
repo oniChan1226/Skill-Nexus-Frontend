@@ -7,14 +7,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import Button from "@/components/shared/Button";
-import { IconDeviceFloppy } from "@tabler/icons-react";
 import ProfileForm from "@/components/ProfileForm";
 
 const ProfileSetup = () => {
   return (
     <div>
-      <section className="max-w-5xl mx-auto space-y-8">
+      <section className="max-w-7xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <Breadcrumb>
             <BreadcrumbList>
@@ -35,10 +33,10 @@ const ProfileSetup = () => {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <Button className="px-6 py-2 flex items-center space-x-2 group transition-all duration-300">
+          {/* <Button className="px-6 py-2 flex items-center space-x-2 group transition-all duration-300">
             <IconDeviceFloppy className="transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105" />
             <span className="font-semibold">Save</span>
-          </Button>
+          </Button> */}
         </div>
       </section>
       <ProfileForm />

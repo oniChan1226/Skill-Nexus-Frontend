@@ -12,7 +12,6 @@ import type { AppDispatch } from "../../app/store";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../features/auth/authSlice";
 import { handleServerErrorsGeneric } from "../../utils/handlers";
-import UsernameField from "../../components/shared/UsernameField";
 import InputField from "../../components/shared/InputField";
 import PasswordField from "../../components/shared/PasswordField";
 
@@ -32,9 +31,7 @@ const Signup = () => {
     register,
     formState: { errors },
     setError,
-    setValue,
     handleSubmit,
-    clearErrors,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });

@@ -74,7 +74,7 @@ const SkillCard = ({
     <div className="flex items-center gap-3">
       <p className="text-sm text-neutral-500">{skill.requests} requests</p>
       <Button
-        className={`!text-sm !px-3 !py-1.5 !bg-neutral-100 dark:!bg-neutral-800 hover:!bg-indigo-100 dark:hover:!bg-indigo-900/40 !text-indigo-600 dark:!text-indigo-300`}
+        className={`!text-sm !px-3 !py-1.5 !bg-indigo-50 dark:!bg-neutral-800 hover:!bg-indigo-100 dark:hover:!bg-indigo-900/40 !text-indigo-600 dark:!text-indigo-300`}
         onClick={() => onViewDetails?.(skill)}
       >
         {isInterest ? "Find Match" : "View Details"}

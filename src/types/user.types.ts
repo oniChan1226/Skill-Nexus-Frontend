@@ -19,7 +19,7 @@ export interface UserModal {
     address: Address;
     role: string;
     lastLogin?: Date;
-    socialLinks: SocialLinks;
+    socialLinks?: SocialLinks;
     profession?: string;
     createdAt?: Date;
     updatedAt?: Date;

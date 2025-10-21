@@ -5,6 +5,7 @@ import Loading from "../pages/public/Loading";
 import NotFound from "../pages/NotFound";
 import AuthGuard from "./AuthGuard";
 import ProfileSetup from "@/pages/protected/ProfileSetup";
+import AddSkills from "@/pages/protected/AddSkills";
 
 // Auth
 const Login = lazy(() => import("../pages/auth/Login"));
@@ -37,6 +38,7 @@ const AppRoutes = () => (
           <Route index element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="profile/settings" element={<ProfileSetup />} />
+          <Route path="skills" element={<AddSkills />} />
         </Route>
       </Route>
       {/* 404 Handler */}

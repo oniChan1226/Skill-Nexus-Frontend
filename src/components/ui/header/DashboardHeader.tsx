@@ -94,7 +94,7 @@ const DashboardHeader = () => {
         {/* User profile */}
         <div className="relative">
           <div
-            className="flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer hover:ring-2 hover:bg-neutral-100 dark:hover:bg-neutral-900 duration-300 overflow-hidden"
+            className="flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer hover:ring-1 hover:bg-neutral-100 dark:hover:bg-neutral-900 duration-300 overflow-hidden"
             onClick={() => setOpenDropdown((prev) => !prev)}
           >
             {user?.profileImage ? (

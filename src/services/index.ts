@@ -7,7 +7,7 @@ import {
 import { baseUrl } from "../constants/constants";
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: `${baseUrl}/auth`,
+  baseUrl: `${baseUrl}`,
   credentials: "include",
 });
 

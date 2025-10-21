@@ -28,7 +28,7 @@ const Profile = () => {
   if (!user) return <div>User not found</div>;
 
   return (
-    <section className="max-w-5xl mx-auto space-y-8">
+    <section className="max-w-7xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <Breadcrumb>
           <BreadcrumbList>
