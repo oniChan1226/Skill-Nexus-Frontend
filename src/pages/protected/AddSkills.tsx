@@ -18,11 +18,31 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Button from "@/components/shared/Button";
 import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
 const AddSkills = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [tabValue, setTabValue] = useState(
+    searchParams.get("tab") || "offered"
+  );
+
+  // keep URL and state in sync
+  useEffect(() => {
+    const currentTab = searchParams.get("tab");
+    if (currentTab && currentTab !== tabValue) {
+      setTabValue(currentTab);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (value: string) => {
+    setTabValue(value);
+    setSearchParams({ tab: value });
+  };
+
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* === BREADCRUMB === */}
@@ -62,7 +82,11 @@ const AddSkills = () => {
         </CardHeader>
 
         <CardContent>
-          <Tabs defaultValue="offered" className="w-full">
+          <Tabs
+            value={tabValue}
+            onValueChange={handleTabChange}
+            className="w-full"
+          >
             <TabsList className="grid grid-cols-2 w-full dark:bg-neutral-900/90">
               <TabsTrigger
                 value="offered"

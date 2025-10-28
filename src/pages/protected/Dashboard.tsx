@@ -57,7 +57,8 @@ const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
 
   const navigate = useNavigate();
-  const navigateToSkillsPage = () => navigate("skills");
+  const navigateToSkillsPage = (value: string = "offered") =>
+    navigate(`skills?tab=${value}`);
 
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
@@ -120,7 +121,7 @@ const Dashboard = () => {
         subtitle="Manage your offered skills and view requests"
         buttonText="Add Skill"
         skills={offeredSkills}
-        onAddClick={navigateToSkillsPage}
+        onAddClick={() => navigateToSkillsPage("offered")}
         onViewDetails={(skill) => console.log("Viewing", skill.name)}
       />
       <SkillSection
@@ -128,7 +129,7 @@ const Dashboard = () => {
         subtitle="Skills you want to learn through exchanges"
         buttonText="Add Interest"
         skills={interestedSkills}
-        onAddClick={navigateToSkillsPage}
+        onAddClick={() => navigateToSkillsPage("required")}
         onViewDetails={(skill) => console.log("Viewing", skill.name)}
       />
     </div>
