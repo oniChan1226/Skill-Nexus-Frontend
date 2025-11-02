@@ -1,5 +1,5 @@
 import React from "react";
-import { IconStar, IconPlus, IconTool, IconTarget } from "@tabler/icons-react";
+import { IconStar, IconPlus, IconTool, IconTarget, IconLoader2 } from "@tabler/icons-react";
 import Button from "./shared/Button";
 
 export interface Skill {
@@ -17,6 +17,7 @@ interface SkillSectionProps {
   subtitle: string;
   buttonText: string;
   skills: Skill[];
+  isLoading?: boolean;
   onAddClick?: () => void;
   onViewDetails?: (skill: Skill) => void;
 }
@@ -88,6 +89,7 @@ const SkillSection: React.FC<SkillSectionProps> = ({
   subtitle,
   buttonText,
   skills,
+  isLoading = false,
   onAddClick,
   onViewDetails,
 }) => {
@@ -112,7 +114,14 @@ const SkillSection: React.FC<SkillSectionProps> = ({
 
       {/* Skills List */}
       <div className="space-y-3">
-        {skills.length > 0 ? (
+        {isLoading ? (
+          <div className="text-center py-12">
+            <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+              <IconLoader2 size={24} className="animate-spin" />
+              <span>Loading skills...</span>
+            </div>
+          </div>
+        ) : skills.length > 0 ? (
           skills.map((skill, index) => (
             <SkillCard
               key={index}

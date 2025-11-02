@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * ✅ Offered Skill Validator
+ * ✅ Offered Skill Validator - Matches Backend Schema
  */
 export const offeredSkillSchema = z.object({
   name: z
@@ -15,13 +15,19 @@ export const offeredSkillSchema = z.object({
   description: z
     .string()
     .max(300, "Description cannot exceed 300 characters")
-    .optional(),
+    .optional()
+    .or(z.literal("")),
 
-  categories: z.array(z.string().min(2, "Category name too short")).default([]),
+  categories: z
+    .array(z.string())
+    .min(1, "At least one category is required")
+    .optional(),
 });
 
+export type OfferedSkill = z.infer<typeof offeredSkillSchema>;
+
 /**
- * ✅ Required Skill Validator
+ * ✅ Required Skill Validator - Matches Backend Schema
  */
 export const requiredSkillSchema = z.object({
   name: z
@@ -32,14 +38,16 @@ export const requiredSkillSchema = z.object({
     required_error: "Learning priority is required",
   }),
 
-  proficiencyLevel: z
-    .enum(["beginner", "intermediate", "expert"])
-    .default("beginner"),
-
   description: z
     .string()
     .max(300, "Description cannot exceed 300 characters")
-    .optional(),
+    .optional()
+    .or(z.literal("")),
 
-  categories: z.array(z.string().min(2, "Category name too short")).default([]),
+  categories: z
+    .array(z.string())
+    .min(1, "At least one category is required")
+    .optional(),
 });
+
+export type RequiredSkill = z.infer<typeof requiredSkillSchema>;

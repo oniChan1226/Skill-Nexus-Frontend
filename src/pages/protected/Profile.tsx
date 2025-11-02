@@ -146,7 +146,7 @@ const Profile = () => {
             <IconStar color="orange" fill="orange" size={20} />
           </div>
           <p className="text-3xl font-bold text-gray-800 dark:text-white">
-            4.8
+            {4.8}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Average user rating
@@ -176,7 +176,7 @@ const Profile = () => {
             <IconBriefcase className="text-indigo-500" />
           </div>
           <p className="text-lg font-semibold text-gray-800 dark:text-white">
-            {user.profession || "Software Developer"}
+            {user.profession || "Not Specified"}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Primary role
@@ -191,7 +191,7 @@ const Profile = () => {
         </h3>
         <p className="mt-3 text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
           {user.bio ||
-            "Passionate about technology, teamwork, and building meaningful digital experiences. Always eager to learn and grow in the software development world."}
+            "Bio not provided. Please update your profile to add a brief description about yourself."}
         </p>
       </div>
     </section>

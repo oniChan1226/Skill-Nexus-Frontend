@@ -19,6 +19,7 @@ import type { RootState } from "@/app/store";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import { useUpdateUserMutation } from "@/services/user.service";
 import type { UserModal } from "@/types/user.types";
+import { toast } from "react-toastify";
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
@@ -77,9 +78,11 @@ export default function ProfileForm() {
 
     try {
       await updateUser(payload as UserModal).unwrap();
+      toast.success("Profile updated successfully!");
       // Optional: show success toast or update state
     } catch (error) {
       console.error("Update failed:", error);
+      toast.error("Failed to update profile.");
     }
   };
 

@@ -11,6 +11,12 @@ import {
 } from "@tabler/icons-react";
 import SkillSection, { type Skill } from "@/components/SkillSection";
 import { useNavigate } from "react-router-dom";
+import {
+  useGetMyOfferedSkillsQuery,
+  useGetMyRequiredSkillsQuery,
+  type SkillModel,
+} from "@/services/skills.service";
+import { useMemo } from "react";
 
 export const dashboardStats = [
   {
@@ -39,22 +45,61 @@ export const dashboardStats = [
   },
 ];
 
-const offeredSkills: Skill[] = [
-  // { name: "Web Development", category: "Technology", level: "Expert", status: "active", rating: 4.9, requests: 12 },
-  // { name: "Graphic Design", category: "Design", level: "Advanced", status: "active", rating: 4.8, requests: 8 },
-  // { name: "Digital Marketing", category: "Marketing", level: "Intermediate", status: "paused", rating: 4.7, requests: 5 },
-];
-
-const interestedSkills: Skill[] = [
-  // { name: "Public Speaking", category: "Communication", level: "Beginner", rating: 0, requests: 3, priority: "High" },
-  // { name: "Video Editing", category: "Creative Media", level: "Beginner", rating: 0, requests: 2, priority: "Medium" },
-  // { name: "UI/UX Design", category: "Design", level: "Intermediate", rating: 0, requests: 4, priority: "High" },
-  // { name: "Data Analysis", category: "Analytics", level: "Intermediate", rating: 0, requests: 1, priority: "Low" },
-  // { name: "Photography", category: "Creative Arts", level: "Beginner", rating: 0, requests: 0, priority: "Low" },
-];
+// Helper function to transform backend SkillModel to frontend Skill type
+const transformSkillToFrontend = (skill: SkillModel, isOffered: boolean): Skill => {
+  return {
+    name: skill.name,
+    category: skill.categories?.[0] || "Uncategorized",
+    level: skill.proficiencyLevel || skill.learningPriority || "beginner",
+    status: isOffered ? "active" : undefined,
+    rating: 0, // Can be calculated from metrics if needed
+    requests: skill.metrics?.totalRequests || 0,
+    priority: !isOffered && skill.learningPriority 
+      ? (skill.learningPriority.charAt(0).toUpperCase() + skill.learningPriority.slice(1)) as "High" | "Medium" | "Low"
+      : undefined,
+  };
+};
 
 const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
+
+  // Fetch skills from API
+  const { 
+    data: offeredSkillsData, 
+    isLoading: isLoadingOffered,
+    error: offeredError,
+  } = useGetMyOfferedSkillsQuery();
+  
+  const { 
+    data: requiredSkillsData, 
+    isLoading: isLoadingRequired,
+    error: requiredError,
+  } = useGetMyRequiredSkillsQuery();
+
+  // Debug: Log the API responses
+  console.log("Offered Skills Data:", offeredSkillsData);
+  console.log("Offered Skills Error:", offeredError);
+  console.log("Required Skills Data:", requiredSkillsData);
+  console.log("Required Skills Error:", requiredError);
+
+  // Transform backend data to frontend format
+  const offeredSkills: Skill[] = useMemo(() => {
+    if (!offeredSkillsData?.skills) {
+      console.log("No offered skills data available");
+      return [];
+    }
+    console.log("Transforming offered skills:", offeredSkillsData.skills);
+    return offeredSkillsData.skills.map((skill) => transformSkillToFrontend(skill, true));
+  }, [offeredSkillsData]);
+
+  const interestedSkills: Skill[] = useMemo(() => {
+    if (!requiredSkillsData?.skills) {
+      console.log("No required skills data available");
+      return [];
+    }
+    console.log("Transforming required skills:", requiredSkillsData.skills);
+    return requiredSkillsData.skills.map((skill) => transformSkillToFrontend(skill, false));
+  }, [requiredSkillsData]);
 
   const navigate = useNavigate();
   const navigateToSkillsPage = (value: string = "offered") =>
@@ -121,6 +166,7 @@ const Dashboard = () => {
         subtitle="Manage your offered skills and view requests"
         buttonText="Add Skill"
         skills={offeredSkills}
+        isLoading={isLoadingOffered}
         onAddClick={() => navigateToSkillsPage("offered")}
         onViewDetails={(skill) => console.log("Viewing", skill.name)}
       />
@@ -129,6 +175,7 @@ const Dashboard = () => {
         subtitle="Skills you want to learn through exchanges"
         buttonText="Add Interest"
         skills={interestedSkills}
+        isLoading={isLoadingRequired}
         onAddClick={() => navigateToSkillsPage("required")}
         onViewDetails={(skill) => console.log("Viewing", skill.name)}
       />
