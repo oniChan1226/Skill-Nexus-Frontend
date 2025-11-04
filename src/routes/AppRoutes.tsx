@@ -19,6 +19,8 @@ const Home = lazy(
 // Protected
 const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
 const Profile = lazy(() => import("../pages/protected/Profile"));
+const Users = lazy(() => import("../pages/protected/Users"));
+const UserDetail = lazy(() => import("../pages/protected/UserDetail"));
 
 const AppRoutes = () => (
   <Suspense fallback={<Loading />}>
@@ -36,6 +38,8 @@ const AppRoutes = () => (
       <Route element={<AuthGuard />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="users/:userId" element={<UserDetail />} />
           <Route path="profile" element={<Profile />} />
           <Route path="profile/settings" element={<ProfileSetup />} />
           <Route path="skills" element={<AddSkills />} />

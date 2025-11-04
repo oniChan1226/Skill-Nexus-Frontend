@@ -44,6 +44,7 @@ export default function ProfileForm() {
         name: user.name || "",
         age: String(user.age) || "",
         email: user.email || "",
+        profession: user.profession || "",
         bio: user.bio || "",
         country: user.address?.country || "",
         city: user.address?.city || "",
@@ -64,6 +65,7 @@ export default function ProfileForm() {
       age: Number(data.age),
       email: data.email,
       bio: data.bio,
+      profession: data.profession,
       address: {
         country: data.country,
         city: data.city,

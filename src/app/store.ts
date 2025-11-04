@@ -5,12 +5,14 @@ import authReducer from "../features/auth/authSlice";
 import themeReducer from "../features/ui/themeSlice";
 import { userApi } from "@/services/user.service";
 import { skillsApi } from "@/services/skills.service";
+import { tradingApi } from "@/services/trading.service";
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [skillsApi.reducerPath]: skillsApi.reducer,
+    [tradingApi.reducerPath]: tradingApi.reducer,
     auth: authReducer,
     theme: themeReducer,
   },
@@ -18,7 +20,8 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       authApi.middleware,
       userApi.middleware,
-      skillsApi.middleware
+      skillsApi.middleware,
+      tradingApi.middleware
     ),
 });
 

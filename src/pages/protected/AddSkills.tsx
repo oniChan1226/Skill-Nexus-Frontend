@@ -456,8 +456,8 @@ const AddSkills = () => {
                     <Button
                       type="button"
                       onClick={handleRequiredCategoryAdd}
-                      variant="secondary"
-                      className="shrink-0"
+                      // variant="secondary"
+                      className="shrink-0 px-4"
                     >
                       Add
                     </Button>

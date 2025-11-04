@@ -160,7 +160,7 @@ const Profile = () => {
             </h3>
             <IconMapPin className="text-indigo-500" />
           </div>
-          <p className="text-lg font-semibold text-gray-800/60 dark:text-white">
+          <p className="text-lg font-semibold text-gray-800 dark:text-white">
             {user.address?.city || "Not specified"}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
