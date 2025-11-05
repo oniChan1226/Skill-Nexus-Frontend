@@ -39,3 +39,38 @@ export interface UsersForTradingResponse {
   message: string;
   success: boolean;
 }
+
+// single user
+export interface DetailedTradingUser {
+  _id: string;
+  name: string;
+  profileImage: string;
+  profession: string;
+  address: {
+    country: string;
+    city: string;
+  };
+}
+
+export interface DetailedUserForTrading {
+  _id: string;
+  rating: number;
+  totalExchanges: number;
+  createdAt: string;
+  userId: DetailedTradingUser; // ✅ used in single-user API
+  offeredSkills: TradingSkill[];
+  requiredSkills: TradingSkill[];
+  metrics: {
+    pendingRequests: number;
+    acceptedRequests: number;
+    completedRequests: number;
+    rejectedRequests: number;
+  };
+}
+
+export interface SingleUserResponse {
+  statusCode: number;
+  skillProfile: DetailedUserForTrading;
+  message: string;
+  success: boolean;
+}

@@ -46,7 +46,6 @@ export const skillsApi = createApi({
         method: "GET",
       }),
       transformResponse: (response: any) => {
-        console.log("Raw offered skills response:", response);
         // Handle different possible response structures
         if (response.skills) {
           return response;
@@ -71,7 +70,6 @@ export const skillsApi = createApi({
         method: "POST",
       }),
       transformResponse: (response: any) => {
-        console.log("Raw required skills response:", response);
         // Handle different possible response structures
         if (response.skills) {
           return response;

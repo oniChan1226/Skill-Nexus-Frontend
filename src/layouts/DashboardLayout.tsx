@@ -46,7 +46,7 @@ const DashboardLayout = () => {
         </header>
 
         {/* Scrollable Content */}
-        <main className="overflow-y-auto p-8 bg-white/90 dark:bg-neutral-950 dark:text-white text-black/90">
+        <main className="overflow-y-auto p-4 md:p-5 lg:p-8 bg-white/90 dark:bg-neutral-950 dark:text-white text-black/90">
           <Outlet />
         </main>
       </div>

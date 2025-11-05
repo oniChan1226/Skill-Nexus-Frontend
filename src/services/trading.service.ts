@@ -1,13 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReauth } from ".";
-import type { UsersForTradingResponse } from "@/types/trading.types";
-
-interface SingleUserResponse {
-  statusCode: number;
-  user: UsersForTradingResponse["users"][0];
-  message: string;
-  success: boolean;
-}
+import type { SingleUserResponse, UsersForTradingResponse } from "@/types/trading.types";
 
 export const tradingApi = createApi({
   reducerPath: "tradingApi",

@@ -31,8 +31,6 @@ export const userApi = createApi({
           dispatch(authApi.endpoints.getCurrentUser.initiate(undefined, { 
             forceRefetch: true 
           }));
-          
-          console.log("✅ Profile updated, cache invalidated & user data refetched");
         } catch (error) {
           console.error("❌ Failed to update profile:", error);
         }

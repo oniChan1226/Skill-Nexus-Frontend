@@ -30,7 +30,6 @@ const DashboardHeader = () => {
     try {
       const res = await logoutUser().unwrap();
       navigate("/login");
-      console.log(res);
     } catch (error: any) {
       console.error(error?.message);
     }

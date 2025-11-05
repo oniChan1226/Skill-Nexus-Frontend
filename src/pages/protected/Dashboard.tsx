@@ -46,7 +46,10 @@ export const dashboardStats = [
 ];
 
 // Helper function to transform backend SkillModel to frontend Skill type
-const transformSkillToFrontend = (skill: SkillModel, isOffered: boolean): Skill => {
+const transformSkillToFrontend = (
+  skill: SkillModel,
+  isOffered: boolean
+): Skill => {
   return {
     name: skill.name,
     category: skill.categories?.[0] || "Uncategorized",
@@ -54,9 +57,11 @@ const transformSkillToFrontend = (skill: SkillModel, isOffered: boolean): Skill 
     status: isOffered ? "active" : undefined,
     rating: 0, // Can be calculated from metrics if needed
     requests: skill.metrics?.totalRequests || 0,
-    priority: !isOffered && skill.learningPriority 
-      ? (skill.learningPriority.charAt(0).toUpperCase() + skill.learningPriority.slice(1)) as "High" | "Medium" | "Low"
-      : undefined,
+    priority:
+      !isOffered && skill.learningPriority
+        ? ((skill.learningPriority.charAt(0).toUpperCase() +
+            skill.learningPriority.slice(1)) as "High" | "Medium" | "Low")
+        : undefined,
   };
 };
 
@@ -64,32 +69,27 @@ const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
 
   // Fetch skills from API
-  const { 
-    data: offeredSkillsData, 
+  const {
+    data: offeredSkillsData,
     isLoading: isLoadingOffered,
     error: offeredError,
   } = useGetMyOfferedSkillsQuery();
-  
-  const { 
-    data: requiredSkillsData, 
+
+  const {
+    data: requiredSkillsData,
     isLoading: isLoadingRequired,
     error: requiredError,
   } = useGetMyRequiredSkillsQuery();
 
-  // Debug: Log the API responses
-  console.log("Offered Skills Data:", offeredSkillsData);
-  console.log("Offered Skills Error:", offeredError);
-  console.log("Required Skills Data:", requiredSkillsData);
-  console.log("Required Skills Error:", requiredError);
-
   // Transform backend data to frontend format
   const offeredSkills: Skill[] = useMemo(() => {
     if (!offeredSkillsData?.skills) {
-      console.log("No offered skills data available");
       return [];
     }
     console.log("Transforming offered skills:", offeredSkillsData.skills);
-    return offeredSkillsData.skills.map((skill) => transformSkillToFrontend(skill, true));
+    return offeredSkillsData.skills.map((skill) =>
+      transformSkillToFrontend(skill, true)
+    );
   }, [offeredSkillsData]);
 
   const interestedSkills: Skill[] = useMemo(() => {
@@ -98,7 +98,9 @@ const Dashboard = () => {
       return [];
     }
     console.log("Transforming required skills:", requiredSkillsData.skills);
-    return requiredSkillsData.skills.map((skill) => transformSkillToFrontend(skill, false));
+    return requiredSkillsData.skills.map((skill) =>
+      transformSkillToFrontend(skill, false)
+    );
   }, [requiredSkillsData]);
 
   const navigate = useNavigate();

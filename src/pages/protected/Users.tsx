@@ -14,12 +14,10 @@ import {
   IconUsers,
   IconTrophy,
   IconLoader2,
-  IconArrowBadgeLeft,
   IconArrowBadgeRight,
 } from "@tabler/icons-react";
 import { useGetUsersForTradingQuery } from "@/services/trading.service";
 import { useState } from "react";
-import Button from "@/components/shared/Button";
 import type { UserForTrading } from "@/types/trading.types";
 
 const UserCard = ({ user }: { user: UserForTrading }) => {
@@ -66,7 +64,7 @@ const UserCard = ({ user }: { user: UserForTrading }) => {
               {user.rating.toFixed(1)}
             </span>
           </div>
-          <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
+          <div className="flex items-center gap-1 text-indigo-500 font-semibold">
             <IconTrophy size={14} />
             <span className="text-xs">{user.totalExchanges} exchanges</span>
           </div>
@@ -193,7 +191,7 @@ const Users = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Explore</BreadcrumbPage>
+              <BreadcrumbPage>Users</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
