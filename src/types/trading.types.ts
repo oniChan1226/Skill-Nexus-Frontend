@@ -52,6 +52,13 @@ export interface DetailedTradingUser {
   };
 }
 
+export type UserProfileMetrices = {
+  pendingRequests: number;
+  acceptedRequests: number;
+  completedRequests: number;
+  rejectedRequests: number;
+};
+
 export interface DetailedUserForTrading {
   _id: string;
   rating: number;
@@ -60,12 +67,7 @@ export interface DetailedUserForTrading {
   userId: DetailedTradingUser; // ✅ used in single-user API
   offeredSkills: TradingSkill[];
   requiredSkills: TradingSkill[];
-  metrics: {
-    pendingRequests: number;
-    acceptedRequests: number;
-    completedRequests: number;
-    rejectedRequests: number;
-  };
+  metrics: UserProfileMetrices;
 }
 
 export interface SingleUserResponse {

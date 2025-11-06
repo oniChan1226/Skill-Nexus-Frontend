@@ -72,13 +72,13 @@ const Dashboard = () => {
   const {
     data: offeredSkillsData,
     isLoading: isLoadingOffered,
-    error: offeredError,
+    // error: offeredError,
   } = useGetMyOfferedSkillsQuery();
 
   const {
     data: requiredSkillsData,
     isLoading: isLoadingRequired,
-    error: requiredError,
+    // error: requiredError,
   } = useGetMyRequiredSkillsQuery();
 
   // Transform backend data to frontend format

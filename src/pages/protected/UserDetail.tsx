@@ -17,14 +17,13 @@ import {
   IconCalendar,
   IconExchange,
   IconMapPin,
-  IconPoint,
-  IconPointFilled,
 } from "@tabler/icons-react";
 import { useGetUserForTradingByIdQuery } from "@/services/trading.service";
 import { useState } from "react";
 import Button from "@/components/shared/Button";
 import TradeSkillsModal from "@/components/TradeModal";
 import type { DetailedUserForTrading } from "@/types/trading.types";
+import RequestStats from "@/components/RequestProfileStats";
 
 const UserDetail = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -153,36 +152,12 @@ const UserDetail = () => {
             <IconCalendar size={16} />
             <span>Joined {new Date(user.createdAt).toLocaleDateString()}</span>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl">
-              <p className="text-sm text-yellow-500">Pending Requests</p>
-              <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
-                {user.metrics.pendingRequests}
-              </h3>
-            </div>
-            <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl">
-              <p className="text-sm text-green-500">Accepted Requests</p>
-              <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
-                {user.metrics.acceptedRequests}
-              </h3>
-            </div>
-            <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl">
-              <p className="text-sm text-indigo-500">Completed</p>
-              <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
-                {user.metrics.completedRequests}
-              </h3>
-            </div>
-            <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl">
-              <p className="text-sm text-red-500">Rejected</p>
-              <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
-                {user.metrics.rejectedRequests}
-              </h3>
-            </div>
+          <div className="mb-4">
+            <RequestStats metrics={user.metrics} />
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="group relative w-full flex items-center justify-center gap-2 rounded-xl bg-neutral-900 text-white dark:text-neutral-900 dark:bg-white text-sm font-medium py-3 transition-all duration-500 hover:bg-neutral-800 overflow-hidden dark:hover:bg-white/90"
+            className="group cursor-pointer relative w-full flex items-center justify-center gap-2 rounded-xl bg-neutral-900 text-white dark:text-neutral-900 dark:bg-white text-sm font-medium py-3 transition-all duration-500 hover:bg-neutral-800 overflow-hidden dark:hover:bg-white/90"
           >
             {/* Soft sweeping light effect */}
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10  to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-[1500ms] ease-out"></span>
