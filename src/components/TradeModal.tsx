@@ -1,7 +1,15 @@
-import type { DetailedUserForTrading, TradingSkill } from "@/types/trading.types";
+import type {
+  DetailedUserForTrading,
+  TradingSkill,
+} from "@/types/trading.types";
 import { IconCheck, IconExchange, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import Button from "./shared/Button";
+import {
+  useGetMyOfferedSkillsQuery,
+  useGetMyRequiredSkillsQuery,
+  type SkillModel,
+} from "@/services/skills.service";
 
 const TradeSkillsModal = ({
   isOpen,
@@ -12,8 +20,10 @@ const TradeSkillsModal = ({
   onClose: () => void;
   user: DetailedUserForTrading;
 }) => {
-  const [selectedOfferedSkill, setSelectedOfferedSkill] = useState<TradingSkill | null>(null);
-  const [selectedRequiredSkill, setSelectedRequiredSkill] = useState<TradingSkill | null>(null);
+  const [selectedOfferedSkill, setSelectedOfferedSkill] =
+    useState<TradingSkill | null>(null);
+  const [selectedRequiredSkill, setSelectedRequiredSkill] =
+    useState<TradingSkill | null>(null);
 
   const handleSubmit = () => {
     if (selectedOfferedSkill && selectedRequiredSkill) {
@@ -28,20 +38,29 @@ const TradeSkillsModal = ({
       onClose();
     }
   };
+  const {
+    data: offeredSkillsData,
+    isLoading: isLoadingOffered,
+    // error: offeredError,
+  } = useGetMyOfferedSkillsQuery();
+  console.log("Offered Skills Data:", offeredSkillsData);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto 
+      <div
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto 
                       bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl 
                       rounded-2xl shadow-[0_0_25px_rgba(0,0,0,0.1)] 
                       border border-neutral-200/60 dark:border-neutral-800/70
-                      transition-all duration-300">
-        
+                      transition-all duration-300"
+      >
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-gradient-to-r from-indigo-500/90 to-purple-600/90 dark:from-indigo-600/90 dark:to-purple-700/90 
-                        p-6 rounded-t-2xl backdrop-blur-md flex items-center justify-between">
+        <div
+          className="sticky top-0 z-10 bg-gradient-to-r from-indigo-500/90 to-purple-600/90 dark:from-indigo-600/90 dark:to-purple-700/90 
+                        p-6 rounded-t-2xl backdrop-blur-md flex items-center justify-between"
+        >
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/20 rounded-xl">
               <IconExchange size={24} className="text-white" />
@@ -64,14 +83,18 @@ const TradeSkillsModal = ({
         {/* Content */}
         <div className="p-6 space-y-8">
           {/* How it Works */}
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 
+          <div
+            className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 
                           border border-indigo-200/40 dark:border-indigo-800/40 
-                          rounded-xl p-4">
+                          rounded-xl p-4"
+          >
             <h3 className="font-medium text-indigo-900 dark:text-indigo-200 mb-2">
               How it works
             </h3>
             <ol className="text-sm text-indigo-700 dark:text-indigo-300 list-decimal list-inside space-y-1">
-              <li>Select a skill you want to teach from your offered skills.</li>
+              <li>
+                Select a skill you want to teach from your offered skills.
+              </li>
               <li>Pick a skill you want to learn from {user.userId.name}.</li>
               <li>Submit your trade request and wait for confirmation.</li>
             </ol>
@@ -80,28 +103,17 @@ const TradeSkillsModal = ({
           {/* Offered Skills */}
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3 flex items-center gap-2">
-              <span className="flex items-center justify-center w-6 h-6 
+              <span
+                className="flex items-center justify-center w-6 h-6 
                                bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 
-                               dark:text-indigo-400 rounded-full text-sm font-bold">
+                               dark:text-indigo-400 rounded-full text-sm font-bold"
+              >
                 1
               </span>
               Select Skill You'll Teach
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                {
-                  _id: "1",
-                  name: "React Development",
-                  proficiencyLevel: "expert",
-                  categories: ["Frontend"],
-                },
-                {
-                  _id: "2",
-                  name: "Node.js",
-                  proficiencyLevel: "intermediate",
-                  categories: ["Backend"],
-                },
-              ].map((skill: any) => (
+              {offeredSkillsData?.skills.map((skill: any) => (
                 <button
                   key={skill._id}
                   onClick={() => setSelectedOfferedSkill(skill)}
@@ -142,7 +154,10 @@ const TradeSkillsModal = ({
                       </div>
                     </div>
                     {selectedOfferedSkill?._id === skill._id && (
-                      <IconCheck size={20} className="text-indigo-500 dark:text-indigo-400" />
+                      <IconCheck
+                        size={20}
+                        className="text-indigo-500 dark:text-indigo-400"
+                      />
                     )}
                   </div>
                 </button>
@@ -153,9 +168,11 @@ const TradeSkillsModal = ({
           {/* Required Skills */}
           <div>
             <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-3 flex items-center gap-2">
-              <span className="flex items-center justify-center w-6 h-6 
+              <span
+                className="flex items-center justify-center w-6 h-6 
                                bg-purple-100 dark:bg-purple-900/30 text-purple-600 
-                               dark:text-purple-400 rounded-full text-sm font-bold">
+                               dark:text-purple-400 rounded-full text-sm font-bold"
+              >
                 2
               </span>
               Select Skill You Want to Learn
@@ -189,7 +206,10 @@ const TradeSkillsModal = ({
                       </div>
                     </div>
                     {selectedRequiredSkill?._id === skill._id && (
-                      <IconCheck size={20} className="text-purple-500 dark:text-purple-400" />
+                      <IconCheck
+                        size={20}
+                        className="text-purple-500 dark:text-purple-400"
+                      />
                     )}
                   </div>
                 </button>
@@ -199,15 +219,20 @@ const TradeSkillsModal = ({
 
           {/* Summary */}
           {selectedOfferedSkill && selectedRequiredSkill && (
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 
+            <div
+              className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 
                             border border-indigo-200/40 dark:border-indigo-800/40 
-                            rounded-xl p-4">
+                            rounded-xl p-4"
+            >
               <h3 className="font-medium text-neutral-800 dark:text-neutral-200 mb-3">
                 Trade Summary
               </h3>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2">
-                  <IconExchange size={16} className="text-indigo-600 dark:text-indigo-400" />
+                  <IconExchange
+                    size={16}
+                    className="text-indigo-600 dark:text-indigo-400"
+                  />
                   <span className="text-neutral-700 dark:text-neutral-300">
                     You’ll teach:{" "}
                     <span className="font-semibold text-indigo-600 dark:text-indigo-400">
@@ -216,7 +241,10 @@ const TradeSkillsModal = ({
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <IconExchange size={16} className="text-purple-600 dark:text-purple-400" />
+                  <IconExchange
+                    size={16}
+                    className="text-purple-600 dark:text-purple-400"
+                  />
                   <span className="text-neutral-700 dark:text-neutral-300">
                     You’ll learn:{" "}
                     <span className="font-semibold text-purple-600 dark:text-purple-400">
@@ -230,10 +258,14 @@ const TradeSkillsModal = ({
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-neutral-100/70 dark:bg-neutral-800/80 border-t border-neutral-200 dark:border-neutral-700 
-                        p-6 rounded-b-2xl backdrop-blur-sm">
+        <div
+          className="sticky bottom-0 bg-neutral-100/70 dark:bg-neutral-800/80 border-t border-neutral-200 dark:border-neutral-700 
+                        p-6 rounded-b-2xl backdrop-blur-sm"
+        >
           <div className="flex justify-end gap-3">
-            <Button onClick={onClose} className="!px-6 !py-2">Cancel</Button>
+            <Button onClick={onClose} className="!px-6 !py-2">
+              Cancel
+            </Button>
             <Button
               onClick={handleSubmit}
               disabled={!selectedOfferedSkill || !selectedRequiredSkill}

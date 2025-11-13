@@ -6,6 +6,7 @@ import NotFound from "../pages/NotFound";
 import AuthGuard from "./AuthGuard";
 import ProfileSetup from "@/pages/protected/ProfileSetup";
 import AddSkills from "@/pages/protected/AddSkills";
+import TradeSkillRequest from "@/pages/protected/TradeSkillRequest";
 
 // Auth
 const Login = lazy(() => import("../pages/auth/Login"));
@@ -40,6 +41,7 @@ const AppRoutes = () => (
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="users/:userId" element={<UserDetail />} />
+          <Route path="trade-skill-request" element={<TradeSkillRequest />} />
           <Route path="profile" element={<Profile />} />
           <Route path="profile/settings" element={<ProfileSetup />} />
           <Route path="skills" element={<AddSkills />} />

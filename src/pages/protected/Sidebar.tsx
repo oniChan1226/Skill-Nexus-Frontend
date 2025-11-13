@@ -18,6 +18,11 @@ export const links = [
     path: "/dashboard/users",
   },
   {
+    label: "Trade Skills Request",
+    icon: <IconUsers size={18} />,
+    path: "/dashboard/trade-skill-request",
+  },
+  {
     label: "Profile",
     icon: <IconUserCircle size={18} />,
     path: "/dashboard/profile",
