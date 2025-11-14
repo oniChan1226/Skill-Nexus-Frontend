@@ -62,21 +62,23 @@ const TradeSkillsModal = ({
                         p-6 rounded-t-2xl backdrop-blur-md flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-white/20 rounded-xl">
-              <IconExchange size={24} className="text-white" />
+            <div className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+              <IconExchange size={20} className="text-indigo-500" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+              <h2 className="md:text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                 Trade Skills with {user.userId.name}
               </h2>
-              <p className="text-sm text-white/70">Select skills to exchange</p>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                Choose what you’ll teach and learn
+              </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors"
           >
-            <IconX size={22} className="text-white" />
+            <IconX size={18} className="text-neutral-600 dark:text-neutral-400" />
           </button>
         </div>
 
@@ -116,43 +118,18 @@ const TradeSkillsModal = ({
               {offeredSkillsData?.skills.map((skill: any) => (
                 <button
                   key={skill._id}
-                  onClick={() => setSelectedOfferedSkill(skill)}
-                  className={`p-4 rounded-xl border-2 transition-all text-left relative overflow-hidden
+                  onClick={() => setSelectedOfferedSkill(skill as any)}
+                  className={`group p-4 text-left rounded-xl border transition-all
                     ${
                       selectedOfferedSkill?._id === skill._id
-                        ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 shadow-md"
-                        : "border-neutral-200 dark:border-neutral-700 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-sm"
+                        ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20"
+                        : "border-neutral-200 dark:border-neutral-700 hover:border-indigo-300 hover:bg-neutral-50 dark:hover:bg-neutral-800"
                     }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-neutral-900 dark:text-neutral-100">
-                        {skill.name}
-                      </h4>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {skill.proficiencyLevel && (
-                          <span
-                            className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${
-                              skill.proficiencyLevel === "expert"
-                                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                : skill.proficiencyLevel === "intermediate"
-                                ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                                : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                            }`}
-                          >
-                            {skill.proficiencyLevel}
-                          </span>
-                        )}
-                        {skill.categories?.map((cat: string, idx: number) => (
-                          <span
-                            key={idx}
-                            className="text-xs px-2 py-0.5 bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 rounded-full"
-                          >
-                            {cat}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium text-neutral-800 dark:text-neutral-100">
+                      {skill.name}
+                    </span>
                     {selectedOfferedSkill?._id === skill._id && (
                       <IconCheck
                         size={20}
@@ -160,6 +137,9 @@ const TradeSkillsModal = ({
                       />
                     )}
                   </div>
+                  <p className="text-xs text-neutral-500 mt-1 capitalize">
+                    {skill.proficiencyLevel}
+                  </p>
                 </button>
               ))}
             </div>
@@ -182,29 +162,17 @@ const TradeSkillsModal = ({
                 <button
                   key={skill._id}
                   onClick={() => setSelectedRequiredSkill(skill)}
-                  className={`p-4 rounded-xl border-2 transition-all text-left relative overflow-hidden
+                  className={`group p-4 text-left rounded-xl border transition-all
                     ${
                       selectedRequiredSkill?._id === skill._id
-                        ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20 shadow-md"
-                        : "border-neutral-200 dark:border-neutral-700 hover:border-purple-300 dark:hover:border-purple-700 hover:shadow-sm"
+                        ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
+                        : "border-neutral-200 dark:border-neutral-700 hover:border-purple-300 hover:bg-neutral-50 dark:hover:bg-neutral-800"
                     }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-neutral-900 dark:text-neutral-100">
-                        {skill.name}
-                      </h4>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {skill.categories?.map((cat, idx) => (
-                          <span
-                            key={idx}
-                            className="text-xs px-2 py-0.5 bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 rounded-full"
-                          >
-                            {cat}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium text-neutral-800 dark:text-neutral-100">
+                      {skill.name}
+                    </span>
                     {selectedRequiredSkill?._id === skill._id && (
                       <IconCheck
                         size={20}
