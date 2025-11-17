@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle } from "lucide-react"; // optional icons for visual appeal
+import { CheckCircle } from "lucide-react"; // optional icons for visual appeal
 
 const dummyRequests = {
   incoming: [
@@ -48,7 +47,7 @@ const dummyRequests = {
 export default function TradeSkillRequest() {
   const [requests, setRequests] = useState(dummyRequests);
 
-  const handleApprove = (id) =>
+  const handleApprove = (id: any) =>
     setRequests((prev) => ({
       ...prev,
       incoming: prev.incoming.map((r) =>
@@ -56,7 +55,7 @@ export default function TradeSkillRequest() {
       ),
     }));
 
-  const handleReject = (id) =>
+  const handleReject = (id: any) =>
     setRequests((prev) => ({
       ...prev,
       incoming: prev.incoming.map((r) =>
@@ -64,7 +63,7 @@ export default function TradeSkillRequest() {
       ),
     }));
 
-  const handleCancel = (id) =>
+  const handleCancel = (id: any) =>
     setRequests((prev) => ({
       ...prev,
       sent: prev.sent.filter((r) => r.id !== id),

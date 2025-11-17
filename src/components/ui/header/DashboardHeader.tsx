@@ -28,7 +28,7 @@ const DashboardHeader = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await logoutUser().unwrap();
+      await logoutUser().unwrap();
       navigate("/login");
     } catch (error: any) {
       console.error(error?.message);

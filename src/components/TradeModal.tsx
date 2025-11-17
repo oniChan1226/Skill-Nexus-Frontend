@@ -7,8 +7,6 @@ import { useState } from "react";
 import Button from "./shared/Button";
 import {
   useGetMyOfferedSkillsQuery,
-  useGetMyRequiredSkillsQuery,
-  type SkillModel,
 } from "@/services/skills.service";
 
 const TradeSkillsModal = ({
@@ -40,7 +38,7 @@ const TradeSkillsModal = ({
   };
   const {
     data: offeredSkillsData,
-    isLoading: isLoadingOffered,
+    // isLoading: isLoadingOffered,
     // error: offeredError,
   } = useGetMyOfferedSkillsQuery();
   console.log("Offered Skills Data:", offeredSkillsData);
