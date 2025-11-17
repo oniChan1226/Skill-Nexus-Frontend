@@ -10,9 +10,9 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => dispatch(toggleTheme())}
-      className="p-2 bg-transparent rounded dark:text-white cursor-pointer hover:bg-neutral-50 dark:hover:bg-gray-400/10"
+      className="p-2 bg-transparent rounded-lg dark:text-white cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900"
     >
-      {theme === "light" ? <IconSun stroke={1} /> : <IconMoon stroke={1} />}
+      {theme === "light" ? <IconSun stroke={1} size={22}/> : <IconMoon stroke={1} size={22}/>}
     </button>
   );
 };

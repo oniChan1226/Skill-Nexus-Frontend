@@ -12,13 +12,11 @@ import type { AppDispatch } from "../../app/store";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../features/auth/authSlice";
 import { handleServerErrorsGeneric } from "../../utils/handlers";
-import UsernameField from "../../components/shared/UsernameField";
 import InputField from "../../components/shared/InputField";
 import PasswordField from "../../components/shared/PasswordField";
 
 const signupFieldMap: Record<string, keyof SignupFormData> = {
   password: "password",
-  username: "username",
   email: "email",
   age: "age",
   agreement: "agreement",
@@ -33,15 +31,12 @@ const Signup = () => {
     register,
     formState: { errors },
     setError,
-    setValue,
     handleSubmit,
-    clearErrors,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [usernameSuggestions, setUsernameSuggestions] = useState<string[]>([]);
 
   const handleSignup = async (data: SignupFormData) => {
     setLoading(true);
@@ -51,20 +46,12 @@ const Signup = () => {
       dispatch(setUser(response?.user));
       navigate("/dashboard", { replace: true }); // TODO: go to profile setup
     } catch (error: any) {
-      if (error?.data?.data) {
-        setError("username", {
-          type: "server",
-          message: "Username is already taken",
-        });
-        setUsernameSuggestions(error?.data?.data);
-      } else {
-        handleServerErrorsGeneric<SignupFormData>(
-          error,
-          setError,
-          toast.error,
-          signupFieldMap
-        );
-      }
+      handleServerErrorsGeneric<SignupFormData>(
+        error,
+        setError,
+        toast.error,
+        signupFieldMap
+      );
     } finally {
       setLoading(false);
     }
@@ -82,7 +69,7 @@ const Signup = () => {
       loaderFallbackText="Registering"
       onSubmit={handleSubmit(handleSignup)}
     >
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {/* Name */}
         <InputField
           id="name"
@@ -103,17 +90,6 @@ const Signup = () => {
           register={register("age", { valueAsNumber: true })}
         />
       </div>
-      {/* Username */}
-      <UsernameField
-        register={register("username")}
-        error={errors.username}
-        suggestions={usernameSuggestions}
-        onSuggestionClick={(val) => {
-          setValue("username", val);
-          clearErrors("username");
-          setUsernameSuggestions([]);
-        }}
-      />
       {/* Email */}
       <InputField
         id="email"

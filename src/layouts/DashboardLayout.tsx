@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../pages/protected/Sidebar";
 import { motion, AnimatePresence } from "framer-motion";
-import { IconMenu } from "@tabler/icons-react";
 import DashboardHeader from "../components/ui/header/DashboardHeader";
 
 const DashboardLayout = () => {
@@ -11,14 +10,7 @@ const DashboardLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-teal-50 dark:bg-dark-600 selection:bg-indigo-200 dark:selection:bg-indigo-500">
-      {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between bg-blue-500 p-4 text-white">
-        <span className="text-lg font-semibold">Dashboard</span>
-        <button onClick={toggleSidebar}>
-          <IconMenu size={24} />
-        </button>
-      </div>
+    <div className="h-screen w-screen overflow-hidden selection:bg-indigo-200 selection:text-indigo-700 ">
 
       {/* Mobile Sidebar */}
       <AnimatePresence>
@@ -42,19 +34,19 @@ const DashboardLayout = () => {
       </AnimatePresence>
 
       {/* Grid Layout for Desktop */}
-      <div className="hidden md:grid grid-cols-[16rem_1fr] grid-rows-[4rem_1fr] h-full">
+      <div className="grid md:grid-cols-[16rem_1fr] md:grid-rows-[4rem_1fr] h-full">
         {/* Sidebar (Fixed) */}
-        <aside className="row-span-2 bg-white dark:bg-dashboard-50 p-4 border-r-[1px] border-gray-200 dark:border-gray-800">
+        <aside className="hidden md:block row-span-2 bg-white dark:bg-neutral-950 p-4 border-r-[1px] border-gray-200 dark:border-gray-800">
           <Sidebar />
         </aside>
 
         {/* Header (Fixed) */}
-        <header className="bg-white/90 dark:bg-dashboard-50 px-4 py-6 border-b border-dashboard-300 shadow-md flex items-center justify-between">
+        <header className="bg-white/90 dark:bg-neutral-950 py-6 border-b border-dashboard-300 shadow-md flex items-center justify-between">
           <DashboardHeader />
         </header>
 
         {/* Scrollable Content */}
-        <main className="overflow-y-auto px-4 py-6 bg-white/90 dark:bg-dashboard-50 dark:text-white text-black/90">
+        <main className="overflow-y-auto p-4 md:p-5 lg:p-8 bg-white/90 dark:bg-neutral-950 dark:text-white text-black/90">
           <Outlet />
         </main>
       </div>

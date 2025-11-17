@@ -26,7 +26,7 @@ const PasswordField = ({
       <div className="flex justify-between items-center">
         <label
           htmlFor={id}
-          className="text-lg font-semibold text-black/80"
+          className="text-md font-semibold text-black/80"
         >
           {label}
         </label>

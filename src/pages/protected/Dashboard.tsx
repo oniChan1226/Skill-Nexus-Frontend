@@ -9,6 +9,14 @@ import {
   IconUsersGroup,
   IconCheck,
 } from "@tabler/icons-react";
+import SkillSection, { type Skill } from "@/components/SkillSection";
+import { useNavigate } from "react-router-dom";
+import {
+  useGetMyOfferedSkillsQuery,
+  useGetMyRequiredSkillsQuery,
+  type SkillModel,
+} from "@/services/skills.service";
+import { useMemo } from "react";
 
 export const dashboardStats = [
   {
@@ -37,12 +45,70 @@ export const dashboardStats = [
   },
 ];
 
+// Helper function to transform backend SkillModel to frontend Skill type
+const transformSkillToFrontend = (
+  skill: SkillModel,
+  isOffered: boolean
+): Skill => {
+  return {
+    name: skill.name,
+    category: skill.categories?.[0] || "Uncategorized",
+    level: skill.proficiencyLevel || skill.learningPriority || "beginner",
+    status: isOffered ? "active" : undefined,
+    rating: 0, // Can be calculated from metrics if needed
+    requests: skill.metrics?.totalRequests || 0,
+    priority:
+      !isOffered && skill.learningPriority
+        ? ((skill.learningPriority.charAt(0).toUpperCase() +
+            skill.learningPriority.slice(1)) as "High" | "Medium" | "Low")
+        : undefined,
+  };
+};
 
 const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
 
+  // Fetch skills from API
+  const {
+    data: offeredSkillsData,
+    isLoading: isLoadingOffered,
+    // error: offeredError,
+  } = useGetMyOfferedSkillsQuery();
+
+  const {
+    data: requiredSkillsData,
+    isLoading: isLoadingRequired,
+    // error: requiredError,
+  } = useGetMyRequiredSkillsQuery();
+
+  // Transform backend data to frontend format
+  const offeredSkills: Skill[] = useMemo(() => {
+    if (!offeredSkillsData?.skills) {
+      return [];
+    }
+    console.log("Transforming offered skills:", offeredSkillsData.skills);
+    return offeredSkillsData.skills.map((skill) =>
+      transformSkillToFrontend(skill, true)
+    );
+  }, [offeredSkillsData]);
+
+  const interestedSkills: Skill[] = useMemo(() => {
+    if (!requiredSkillsData?.skills) {
+      console.log("No required skills data available");
+      return [];
+    }
+    console.log("Transforming required skills:", requiredSkillsData.skills);
+    return requiredSkillsData.skills.map((skill) =>
+      transformSkillToFrontend(skill, false)
+    );
+  }, [requiredSkillsData]);
+
+  const navigate = useNavigate();
+  const navigateToSkillsPage = (value: string = "offered") =>
+    navigate(`skills?tab=${value}`);
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
       {/* welcome cards */}
       <div className="grid grid-cols-3 gap-3">
         {/* card - 1 */}
@@ -85,11 +151,36 @@ const Dashboard = () => {
         </div>
       </div>
       {/* info cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-2">
+      <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-2">
         {dashboardStats.map((stat) => (
-          <SkillCards key={stat.title} icon={stat.icon} title={stat.title} subText={stat.subtext} value={stat.value}  />
+          <SkillCards
+            key={stat.title}
+            icon={stat.icon}
+            title={stat.title}
+            subText={stat.subtext}
+            value={stat.value}
+          />
         ))}
       </div>
+
+      <SkillSection
+        title="Skills I Offer"
+        subtitle="Manage your offered skills and view requests"
+        buttonText="Add Skill"
+        skills={offeredSkills}
+        isLoading={isLoadingOffered}
+        onAddClick={() => navigateToSkillsPage("offered")}
+        onViewDetails={(skill) => console.log("Viewing", skill.name)}
+      />
+      <SkillSection
+        title="Skills I'm Seeking"
+        subtitle="Skills you want to learn through exchanges"
+        buttonText="Add Interest"
+        skills={interestedSkills}
+        isLoading={isLoadingRequired}
+        onAddClick={() => navigateToSkillsPage("required")}
+        onViewDetails={(skill) => console.log("Viewing", skill.name)}
+      />
     </div>
   );
 };

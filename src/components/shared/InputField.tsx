@@ -23,7 +23,7 @@ const InputField = ({
 }: InputFieldProps) => {
   return (
     <div className="flex flex-col">
-      <label htmlFor={id} className="text-lg font-semibold text-black/80">
+      <label htmlFor={id} className="text-md font-semibold text-black/80">
         {label}
       </label>
       <div className="relative flex items-center">

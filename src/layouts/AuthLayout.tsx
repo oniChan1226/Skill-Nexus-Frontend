@@ -1,17 +1,18 @@
 import { Outlet } from "react-router-dom";
-import { AuthHero } from "../components/ui/auth";
+import {AuthHero} from "../components/ui/auth"; // small fix: make sure it's default export
 
 const AuthLayout = () => {
   return (
     <main className="selection:bg-indigo-200 dark:selection:bg-indigo-500 bg-gradient-to-br from-purple-50 via-blue-50 to-teal-50 dark:bg-dark-600 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 min-h-screen flex justify-center items-center">
-      <div className="bg-white/70 max-w-[100rem] p-3 md:p-5 rounded-lg w-[95%] h-[95vh] grid grid-cols-1 lg:grid-cols-2 overflow-auto gap-4">
+      <div className="bg-white/70 max-w-[100rem] p-0 md:p-5 rounded-lg w-[95%] min-h-[90vh] grid grid-cols-1 lg:grid-cols-2 gap-4">
+        
         {/* Left Panel */}
         <div className="hidden lg:flex h-full w-full rounded-3xl overflow-hidden">
           <AuthHero />
         </div>
 
         {/* Right Panel */}
-        <div className=" flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center w-full h-full">
           <Outlet />
         </div>
       </div>
