@@ -12,7 +12,7 @@ const Home = () => {
   }
 
   return (
-    <main className="bg-gradient-to-br from-purple-50 via-blue-50 to-teal-50 dark:bg-dark-600 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20">
+    <main className="bg-gradient-to-br from-purple-100 via-blue-100 to-teal-100 dark:bg-dark-600 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20">
       <Hero />
       <Features />
       <HowItWorks />

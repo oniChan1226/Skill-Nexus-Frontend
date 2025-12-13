@@ -36,17 +36,9 @@ const DashboardHeader = () => {
   };
 
   return (
-    <header className="flex items-center justify-between w-full px-4 py-3 border-b border-neutral-200 dark:border-neutral-700  relative">
+    <header className="flex items-center justify-between w-full px-4 py-2 border-b border-neutral-200 dark:border-neutral-700  relative">
       {/* === LEFT: Logo === */}
       <div className="flex items-center gap-1">
-        <img
-          src="logo.png"
-          alt="Skill Nexus"
-          className="w-14 h-8 object-cover rounded"
-        />
-        <h1 className="font-semibold text-lg text-neutral-800 dark:text-white tracking-wide">
-          Skill Nexus
-        </h1>
       </div>
 
       {/* === RIGHT: Controls === */}

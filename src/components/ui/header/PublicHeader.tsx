@@ -29,12 +29,12 @@ const PublicHeader = () => {
               <img
                 src="logo.png"
                 alt="Logo"
-                className="w-full h-full object-contain scale-[1.2] md:scale-[1.8]"
+                className="w-full h-full object-contain scale-[1.2] xl:scale-[1.8]"
               />
             </div>
             <Link
               to="/"
-              className="text-md sm:text-lg md:text-2xl font-bold text-dark-500/80 dark:text-white"
+              className="text-md sm:text-lg xl:text-xl font-bold text-dark-500/80 dark:text-white"
             >
               {WebName}
             </Link>
@@ -54,7 +54,7 @@ const PublicHeader = () => {
           </nav>
 
           {/* Desktop Buttons */}
-          <div className="hidden sm:flex items-center space-x-2 text-lg">
+          <div className="hidden sm:flex items-center space-x-2 xl:text-lg">
             <div className="hidden sm:flex items-center space-x-1 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
               <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
               <span>4,802 Online</span>

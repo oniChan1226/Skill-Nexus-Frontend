@@ -19,7 +19,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative py-24 overflow-hidden"
+    <section className="relative py-12 xl:py-24 overflow-hidden"
     >
 
       <motion.div
@@ -42,14 +42,14 @@ const Hero = () => {
             Trade Skills,
             <span className="block text-indigo-500">Not Bills</span>
           </motion.h1>
-          <motion.p variants={fadeUp} className="text-xl text-gray-600 dark:text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <motion.p variants={fadeUp} className="text-xs sm:text-sm xl:text-md text-gray-600 dark:text-white/80 mb-8 max-w-lg xl:max-w-xl mx-auto leading-relaxed">
             Connect with talented individuals to exchange knowledge and skills.
             Learn what you need, teach what you know - all without spending a
             penny.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/signup">
-              <Button className="text-lg font-semibold shadow-xl px-6 py-2">
+              <Button className="text-sm xl:text-md font-semibold shadow-xl px-6 py-2">
                 <span className="flex items-center">
                   Start Exchanging
                   <IconArrowRight className="ml-2 h-5 w-5" />
@@ -59,7 +59,7 @@ const Hero = () => {
             <Link to="#features">
               <Button
                 variant="light"
-                className="outline-1 outline-gray-300 shadow-md text-lg font-semibold px-6 py-2"
+                className="outline-1 outline-gray-300 shadow-md text-sm xl:text-md font-semibold px-6 py-2"
               >
                 Browse Skills
               </Button>

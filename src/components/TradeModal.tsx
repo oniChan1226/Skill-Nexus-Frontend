@@ -8,6 +8,8 @@ import Button from "./shared/Button";
 import {
   useGetMyOfferedSkillsQuery,
 } from "@/services/skills.service";
+import { useCreateTradeRequestMutation } from "@/services/tradeRequest.service";
+import { toast } from "react-toastify";
 
 const TradeSkillsModal = ({
   isOpen,
@@ -23,25 +25,37 @@ const TradeSkillsModal = ({
   const [selectedRequiredSkill, setSelectedRequiredSkill] =
     useState<TradingSkill | null>(null);
 
-  const handleSubmit = () => {
-    if (selectedOfferedSkill && selectedRequiredSkill) {
-      console.log("Trade Request:", {
-        teachSkill: selectedOfferedSkill,
-        learnSkill: selectedRequiredSkill,
-        withUser: user.userId._id,
-      });
-      alert(
-        `Trade request sent!\nYou'll teach: ${selectedOfferedSkill.name}\nYou'll learn: ${selectedRequiredSkill.name}`
-      );
-      onClose();
-    }
-  };
   const {
     data: offeredSkillsData,
-    // isLoading: isLoadingOffered,
-    // error: offeredError,
+    isLoading: isLoadingOffered,
   } = useGetMyOfferedSkillsQuery();
-  console.log("Offered Skills Data:", offeredSkillsData);
+
+  const [createTradeRequest, { isLoading: isCreating }] = useCreateTradeRequestMutation();
+
+  const handleSubmit = async () => {
+    if (selectedOfferedSkill && selectedRequiredSkill) {
+      try {
+        await createTradeRequest({
+          receiverId: user.userId._id,
+          senderOfferedSkillId: selectedOfferedSkill._id,
+          receiverOfferedSkillId: selectedRequiredSkill._id,
+          message: `I'd like to trade skills with you!`,
+        }).unwrap();
+
+        toast.success(
+          `Trade request sent to ${user.userId.name}! You'll teach ${selectedOfferedSkill.name} and learn ${selectedRequiredSkill.name}.`
+        );
+        
+        // Reset selections and close modal
+        setSelectedOfferedSkill(null);
+        setSelectedRequiredSkill(null);
+        onClose();
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to send trade request");
+        console.error("Trade request error:", error);
+      }
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -56,7 +70,7 @@ const TradeSkillsModal = ({
       >
         {/* Header */}
         <div
-          className="sticky top-0 z-10 bg-gradient-to-r from-indigo-500/90 to-purple-600/90 dark:from-indigo-600/90 dark:to-purple-700/90 
+          className="sticky top-0 z-10 bg-neutral-50 dark:bg-neutral-900
                         p-6 rounded-t-2xl backdrop-blur-md flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
@@ -81,17 +95,17 @@ const TradeSkillsModal = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-8">
+        <div className="p-6 space-y-8 bg-neutral-100 dark:bg-black/70">
           {/* How it Works */}
           <div
             className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 
                           border border-indigo-200/40 dark:border-indigo-800/40 
                           rounded-xl p-4"
           >
-            <h3 className="font-medium text-indigo-900 dark:text-indigo-200 mb-2">
+            <h3 className="font-bold text-neutral-900 dark:text-indigo-200 mb-2">
               How it works
             </h3>
-            <ol className="text-sm text-indigo-700 dark:text-indigo-300 list-decimal list-inside space-y-1">
+            <ol className="text-sm text-neutral-700 dark:text-indigo-300 list-decimal list-inside space-y-1">
               <li>
                 Select a skill you want to teach from your offered skills.
               </li>
@@ -225,7 +239,7 @@ const TradeSkillsModal = ({
 
         {/* Footer */}
         <div
-          className="sticky bottom-0 bg-neutral-100/70 dark:bg-neutral-800/80 border-t border-neutral-200 dark:border-neutral-700 
+          className="sticky bottom-0 bg-neutral-100/70 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 
                         p-6 rounded-b-2xl backdrop-blur-sm"
         >
           <div className="flex justify-end gap-3">
@@ -234,11 +248,20 @@ const TradeSkillsModal = ({
             </Button>
             <Button
               onClick={handleSubmit}
-              disabled={!selectedOfferedSkill || !selectedRequiredSkill}
-              className="!px-6 !py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!selectedOfferedSkill || !selectedRequiredSkill || isCreating || isLoadingOffered}
+              className="!px-6 !py-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-x-1"
             >
-              <IconExchange size={18} />
-              Send Trade Request
+              {isCreating ? (
+                <>
+                  <span className="animate-spin">⏳</span>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <IconExchange size={18} />
+                  Send Request
+                </>
+              )}
             </Button>
           </div>
         </div>
