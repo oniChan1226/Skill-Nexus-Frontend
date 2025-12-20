@@ -7,6 +7,7 @@ import { userApi } from "@/services/user.service";
 import { skillsApi } from "@/services/skills.service";
 import { tradingApi } from "@/services/trading.service";
 import { tradeRequestApi } from "@/services/tradeRequest.service";
+import { aiService } from "@/services/ai.service";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     [skillsApi.reducerPath]: skillsApi.reducer,
     [tradingApi.reducerPath]: tradingApi.reducer,
     [tradeRequestApi.reducerPath]: tradeRequestApi.reducer,
+    [aiService.reducerPath]: aiService.reducer,
     auth: authReducer,
     theme: themeReducer,
   },
@@ -24,7 +26,8 @@ export const store = configureStore({
       userApi.middleware,
       skillsApi.middleware,
       tradingApi.middleware,
-      tradeRequestApi.middleware
+      tradeRequestApi.middleware,
+      aiService.middleware
     ),
 });
 

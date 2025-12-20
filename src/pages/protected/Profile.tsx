@@ -9,6 +9,8 @@ import {
   IconCalendar,
   IconBadge,
   IconSettings,
+  IconLoader2,
+  IconAlertCircle,
 } from "@tabler/icons-react";
 import { shallowEqual, useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
@@ -22,9 +24,20 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
+import ProfileAnalysis from "@/components/ProfileAnalysis";
+import { useGetProfileAnalysisQuery } from "@/services/ai.service";
+import { Card, CardContent } from "@/components/ui/card";
 
 const Profile = () => {
   const { user } = useSelector((state: RootState) => state.auth, shallowEqual);
+  
+  // Fetch AI profile analysis
+  const {
+    data: analysisData,
+    isLoading: isLoadingAnalysis,
+    error: analysisError,
+  } = useGetProfileAnalysisQuery();
+
   if (!user) return <div>User not found</div>;
 
   return (
@@ -193,6 +206,50 @@ const Profile = () => {
           {user.bio ||
             "Bio not provided. Please update your profile to add a brief description about yourself."}
         </p>
+      </div>
+
+      {/* === AI Profile Analysis Section === */}
+      <div className="mt-8">
+        {isLoadingAnalysis ? (
+          <Card className="border border-neutral-200 dark:border-neutral-800 dark:bg-neutral-800">
+            <CardContent className="py-12 lg:py-24">
+              <div className="flex flex-col items-center justify-center">
+                <IconLoader2
+                  size={40}
+                  className="text-indigo-500 animate-spin opacity-80"
+                />
+                <p className="mt-3 text-neutral-500 dark:text-neutral-400 text-sm">
+                  Analyzing your profile with AI...
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : analysisError ? (
+          <Card className="border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-900/10">
+            <CardContent className="py-8">
+              <div className="flex flex-col items-center text-center">
+                <IconAlertCircle
+                  size={40}
+                  className="text-amber-500 dark:text-amber-400 mb-2"
+                />
+                <p className="text-amber-600 dark:text-amber-400 font-medium">
+                  Profile analysis temporarily unavailable
+                </p>
+                <p className="text-sm text-amber-500 dark:text-amber-500 mt-1">
+                  Complete your profile to get AI-powered insights
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : analysisData ? (
+          <ProfileAnalysis
+            profileStrength={analysisData.profileStrength}
+            completeness={analysisData.completeness}
+            sentiment={analysisData.sentiment}
+            suggestions={analysisData.suggestions}
+            stats={analysisData.stats}
+          />
+        ) : null}
       </div>
     </section>
   );

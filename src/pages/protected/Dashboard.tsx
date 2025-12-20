@@ -2,7 +2,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
 import Button from "../../components/shared/Button";
 import { IconTrendingUp } from "@tabler/icons-react";
-import SkillCards from "../../components/shared/SkillCards";
 import {
   IconBolt,
   IconUser,
@@ -17,6 +16,10 @@ import {
   type SkillModel,
 } from "@/services/skills.service";
 import { useMemo } from "react";
+import AIRecommendations from "@/components/AIRecommendations";
+import { useGetSkillRecommendationsQuery } from "@/services/ai.service";
+import { Card, CardContent } from "@/components/ui/card";
+import { IconLoader2, IconAlertCircle } from "@tabler/icons-react";
 
 export const dashboardStats = [
   {
@@ -80,6 +83,13 @@ const Dashboard = () => {
     isLoading: isLoadingRequired,
     // error: requiredError,
   } = useGetMyRequiredSkillsQuery();
+
+  // Fetch AI recommendations
+  const {
+    data: aiData,
+    isLoading: isLoadingAI,
+    error: aiError,
+  } = useGetSkillRecommendationsQuery();
 
   // Transform backend data to frontend format
   const offeredSkills: Skill[] = useMemo(() => {
@@ -151,7 +161,7 @@ const Dashboard = () => {
         </div>
       </div>
       {/* info cards */}
-      <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-2">
+      {/* <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-2">
         {dashboardStats.map((stat) => (
           <SkillCards
             key={stat.title}
@@ -161,6 +171,48 @@ const Dashboard = () => {
             value={stat.value}
           />
         ))}
+      </div> */}
+
+      {/* AI Recommendations Section */}
+      <div className="mt-6">
+        {isLoadingAI ? (
+          <Card className="border border-neutral-200 dark:border-neutral-800 dark:bg-neutral-800">
+            <CardContent className="py-12 lg:py-24">
+              <div className="flex flex-col items-center justify-center">
+                <IconLoader2
+                  size={40}
+                  className="text-indigo-500 animate-spin opacity-80"
+                />
+                <p className="mt-3 text-neutral-500 dark:text-neutral-400 text-sm">
+                  Generating AI recommendations...
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : aiError ? (
+          <Card className="border border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-900/10">
+            <CardContent className="py-8">
+              <div className="flex flex-col items-center text-center">
+                <IconAlertCircle
+                  size={40}
+                  className="text-red-500 dark:text-red-400 mb-2"
+                />
+                <p className="text-red-600 dark:text-red-400 font-medium">
+                  Unable to load AI recommendations
+                </p>
+                <p className="text-sm text-red-500 dark:text-red-500 mt-1">
+                  Please try again later
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : aiData ? (
+          <AIRecommendations
+            recommendations={aiData.recommendations}
+            learningPath={aiData.learningPath}
+            currentSkills={aiData.currentSkills}
+          />
+        ) : null}
       </div>
 
       <SkillSection

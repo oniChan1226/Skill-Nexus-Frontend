@@ -19,11 +19,17 @@ import {
   IconMapPin,
 } from "@tabler/icons-react";
 import { useGetUserForTradingByIdQuery } from "@/services/trading.service";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Button from "@/components/shared/Button";
 import TradeSkillsModal from "@/components/TradeModal";
 import type { DetailedUserForTrading } from "@/types/trading.types";
 import RequestStats from "@/components/RequestProfileStats";
+import SkillSimilarityMatcher from "@/components/SkillSimilarityMatcher";
+import {
+  useGetMyOfferedSkillsQuery,
+  useGetMyRequiredSkillsQuery,
+} from "@/services/skills.service";
+import type { TradingSkill } from "@/types/trading.types";
 
 const UserDetail = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -37,6 +43,35 @@ const UserDetail = () => {
   const { data, isLoading, error } = useGetUserForTradingByIdQuery(
     userId as string
   );
+
+  // Fetch current user's skills for comparison
+  const { data: myOfferedSkillsData } = useGetMyOfferedSkillsQuery();
+  const { data: myRequiredSkillsData } = useGetMyRequiredSkillsQuery();
+
+  // Transform my skills to TradingSkill format
+  const myOfferedSkills: TradingSkill[] = useMemo(() => {
+    return (
+      myOfferedSkillsData?.skills.map((skill) => ({
+        _id: skill._id,
+        name: skill.name,
+        proficiencyLevel: skill.proficiencyLevel,
+        categories: skill.categories || [],
+        description: skill.description,
+      })) || []
+    );
+  }, [myOfferedSkillsData]);
+
+  const myRequiredSkills: TradingSkill[] = useMemo(() => {
+    return (
+      myRequiredSkillsData?.skills.map((skill) => ({
+        _id: skill._id,
+        name: skill.name,
+        learningPriority: skill.learningPriority,
+        categories: skill.categories || [],
+        description: skill.description,
+      })) || []
+    );
+  }, [myRequiredSkillsData]);
 
   const user: DetailedUserForTrading | undefined = data?.skillProfile;
   const isActive = true;
@@ -122,14 +157,21 @@ const UserDetail = () => {
                   {user.userId.name}
                 </h2>
                 <div className="flex items-center gap-2 mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-                  <IconBriefcase size={16} />
-                  <span>
-                    {user.userId.profession || "Independent Professional"}
-                  </span>
-                  <IconMapPin size={16} />
-                  <span>
-                    {user.userId.address.city}, {user.userId.address.country}
-                  </span>
+                  {user.userId.profession && (
+                    <>
+                      <IconBriefcase size={16} />
+                      <span>{user.userId.profession}</span>
+                    </>
+                  )}
+                  {user.userId.address?.city && user.userId.address?.country && (
+                    <>
+                      {user.userId.profession && <span className="mx-1">•</span>}
+                      <IconMapPin size={16} />
+                      <span>
+                        {user.userId.address.city}, {user.userId.address.country}
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -172,6 +214,17 @@ const UserDetail = () => {
           </button>
         </CardContent>
       </Card>
+
+      {/* AI Skill Similarity Matcher */}
+      <div className="mt-10">
+        <SkillSimilarityMatcher
+          myOfferedSkills={myOfferedSkills}
+          myRequiredSkills={myRequiredSkills}
+          theirOfferedSkills={user.offeredSkills}
+          theirRequiredSkills={user.requiredSkills}
+          userName={user.userId.name}
+        />
+      </div>
 
       {/* Skills Section */}
       <div className="grid md:grid-cols-2 gap-6 mt-10">

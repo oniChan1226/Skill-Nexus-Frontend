@@ -2,6 +2,7 @@ import {
   IconLayoutDashboard,
   IconUsers,
   IconUserCircle,
+  IconRocket,
 } from "@tabler/icons-react";
 import { WebName } from "../../constants/constants";
 import { NavLink, useLocation } from "react-router-dom";
@@ -21,6 +22,11 @@ export const links = [
     label: "Trade Skills Request",
     icon: <IconUsers size={18} />,
     path: "/dashboard/trade-skill-request",
+  },
+  {
+    label: "AI Learning Path",
+    icon: <IconRocket size={18} />,
+    path: "/dashboard/learning-path",
   },
   {
     label: "Profile",

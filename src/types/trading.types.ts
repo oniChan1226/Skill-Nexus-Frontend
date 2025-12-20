@@ -45,8 +45,8 @@ export interface DetailedTradingUser {
   _id: string;
   name: string;
   profileImage: string;
-  profession: string;
-  address: {
+  profession?: string;
+  address?: {
     country: string;
     city: string;
   };

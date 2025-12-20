@@ -15,10 +15,15 @@ import {
   IconTrophy,
   IconLoader2,
   IconArrowBadgeRight,
+  IconSearch,
+  IconSparkles,
+  IconX,
 } from "@tabler/icons-react";
 import { useGetUsersForTradingQuery } from "@/services/trading.service";
 import { useState } from "react";
 import type { UserForTrading } from "@/types/trading.types";
+import { useLazyFindTeachersQuery } from "@/services/ai.service";
+import TeacherCard from "@/components/TeacherCard";
 
 const UserCard = ({ user }: { user: UserForTrading }) => {
   const [showAllOffered, setShowAllOffered] = useState(false);
@@ -173,10 +178,35 @@ const UserCard = ({ user }: { user: UserForTrading }) => {
 
 const Users = () => {
   const [page, setPage] = useState(1);
+  const [searchSkill, setSearchSkill] = useState("");
+  const [searchMode, setSearchMode] = useState(false);
+  
   const { data, isLoading, error } = useGetUsersForTradingQuery({
     page,
     limit: 10,
   });
+
+  const [
+    findTeachers,
+    {
+      data: teachersData,
+      isLoading: isLoadingTeachers,
+      error: teachersError,
+    },
+  ] = useLazyFindTeachersQuery();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchSkill.trim()) {
+      setSearchMode(true);
+      findTeachers(searchSkill.trim());
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchSkill("");
+    setSearchMode(false);
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -227,31 +257,171 @@ const Users = () => {
         </CardHeader>
       </Card>
 
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex items-center justify-center py-20">
-          <div className="flex flex-col items-center gap-3">
-            <IconLoader2
-              size={48}
-              className="text-indigo-600 dark:text-indigo-400 animate-spin"
-            />
-            <p className="text-neutral-600 dark:text-neutral-400">
-              Loading users...
-            </p>
+      {/* AI Teacher Search */}
+      <Card className="border border-purple-200 dark:border-purple-800 shadow-md bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/10 dark:to-neutral-950">
+        <CardContent className="pt-6">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+              <IconSparkles size={20} className="text-purple-600 dark:text-purple-400" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                AI-Powered Teacher Search
+              </h3>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                Find the best teachers for any skill using AI
+              </p>
+            </div>
           </div>
-        </div>
+
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <div className="flex-1 relative">
+              <IconSearch
+                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
+              />
+              <input
+                type="text"
+                value={searchSkill}
+                onChange={(e) => setSearchSkill(e.target.value)}
+                placeholder="Search for a skill (e.g., Docker, React, Python)..."
+                className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-600 transition-all"
+              />
+              {searchSkill && (
+                <button
+                  type="button"
+                  onClick={() => setSearchSkill("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
+                >
+                  <IconX size={16} />
+                </button>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={!searchSkill.trim() || isLoadingTeachers}
+              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 disabled:from-neutral-400 disabled:to-neutral-500 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isLoadingTeachers ? (
+                <IconLoader2 size={18} className="animate-spin" />
+              ) : (
+                <IconSparkles size={18} />
+              )}
+              Search
+            </button>
+          </form>
+
+          {searchMode && (
+            <button
+              onClick={handleClearSearch}
+              className="mt-3 text-sm text-purple-600 dark:text-purple-400 hover:underline font-medium flex items-center gap-1"
+            >
+              <IconX size={14} />
+              Clear search & show all users
+            </button>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Teacher Search Results */}
+      {searchMode && (
+        <>
+          {isLoadingTeachers && (
+            <div className="flex items-center justify-center py-20">
+              <div className="flex flex-col items-center gap-3">
+                <IconLoader2
+                  size={48}
+                  className="text-purple-600 dark:text-purple-400 animate-spin"
+                />
+                <p className="text-neutral-600 dark:text-neutral-400">
+                  Finding best teachers with AI...
+                </p>
+              </div>
+            </div>
+          )}
+
+          {teachersError && (
+            <Card className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/10">
+              <CardContent className="py-8 text-center">
+                <p className="text-red-600 dark:text-red-400 font-medium">
+                  Failed to find teachers for "{searchSkill}"
+                </p>
+                <p className="text-sm text-red-500 dark:text-red-500 mt-1">
+                  Please try a different skill or try again later.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          {teachersData && teachersData.teachers.length > 0 && (
+            <>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                  Top Teachers for "{searchSkill}"
+                  <span className="ml-2 text-sm font-normal text-neutral-500 dark:text-neutral-400">
+                    ({teachersData.teachers.length} found)
+                  </span>
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {teachersData.teachers.map((teacher, index) => (
+                  <TeacherCard key={index} teacher={teacher} />
+                ))}
+              </div>
+            </>
+          )}
+
+          {teachersData && teachersData.teachers.length === 0 && (
+            <Card className="border border-neutral-200 dark:border-neutral-800">
+              <CardContent className="py-20 text-center">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="p-4 bg-neutral-100 dark:bg-neutral-800 rounded-full">
+                    <IconSearch
+                      size={48}
+                      className="text-neutral-400 dark:text-neutral-600"
+                    />
+                  </div>
+                  <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
+                    No Teachers Found
+                  </h3>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-500">
+                    No teachers available for "{searchSkill}" at the moment.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </>
       )}
 
-      {/* Error State */}
-      {error && (
-        <Card className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/10">
-          <CardContent className="py-8 text-center">
-            <p className="text-red-600 dark:text-red-400">
-              Failed to load users. Please try again later.
-            </p>
-          </CardContent>
-        </Card>
-      )}
+      {/* Regular Users List */}
+      {!searchMode && (
+        <>
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex items-center justify-center py-20">
+              <div className="flex flex-col items-center gap-3">
+                <IconLoader2
+                  size={48}
+                  className="text-indigo-600 dark:text-indigo-400 animate-spin"
+                />
+                <p className="text-neutral-600 dark:text-neutral-400">
+                  Loading users...
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <Card className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/10">
+              <CardContent className="py-8 text-center">
+                <p className="text-red-600 dark:text-red-400">
+                  Failed to load users. Please try again later.
+                </p>
+              </CardContent>
+            </Card>
+          )}
 
       {/* Users Grid */}
       {data?.users && data.users.length > 0 && (
@@ -338,6 +508,8 @@ const Users = () => {
             </div>
           </CardContent>
         </Card>
+      )}
+        </>
       )}
     </div>
   );
